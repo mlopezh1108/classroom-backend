@@ -1,0 +1,12 @@
+.gradle/
+build/
+bin/
+out/
+.idea/
+.vscode/
+.git/
+*.log
+docker-compose*.yml
+Dockerfile
+.dockerignore
+!gradle/wrapper/gradle-wrapper.jar
