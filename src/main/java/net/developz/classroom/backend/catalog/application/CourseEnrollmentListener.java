@@ -1,7 +1,8 @@
 package net.developz.classroom.backend.catalog.application;
 
 import lombok.extern.slf4j.Slf4j;
-import net.developz.classroom.backend.academic.domain.events.EnrollmentCreatedEvent;
+import net.developz.classroom.backend.academic.domain.event.EnrollmentCreatedEvent;
+
 import org.springframework.modulith.events.ApplicationModuleListener;
 import org.springframework.stereotype.Component;
 
