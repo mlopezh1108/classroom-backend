@@ -1,0 +1,9 @@
+services:
+  app:
+    # Imagen de GraalVM/Mandrel optimizada para compilación nativa en Java 21
+    image: quay.io/quarkus/ubi9-quarkus-mandrel-builder-image:jdk-21
+    volumes:
+      - ../:/workspace:cached
+    command: sleep infinity
+    depends_on:
+      - db
