@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="net.developz.classroom.backend.academic.application.EnrollmentServiceTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-04-16T02:24:37.884Z" hostname="ROG" time="1.273">
-  <properties/>
-  <testcase name="confirmEnrollment_ShouldPublishEvent()" classname="net.developz.classroom.backend.academic.application.EnrollmentServiceTest" time="1.271"/>
-  <system-out><![CDATA[2026-04-15T20:24:38.744-06:00  INFO 10928 --- [    Test worker] n.d.c.b.a.application.EnrollmentService  : Processing enrollment for student: student-ulid-789 in course: course-ulid-123
-2026-04-15T20:24:38.746-06:00  INFO 10928 --- [    Test worker] n.d.c.b.a.application.EnrollmentService  : Publishing EnrollmentCreatedEvent for enrollment enrollment-ulid-456
-]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

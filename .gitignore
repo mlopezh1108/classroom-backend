@@ -1,17 +1,60 @@
-target/
-pom.xml.tag
-pom.xml.releaseBackup
-pom.xml.versionsBackup
-pom.xml.next
-release.properties
-dependency-reduced-pom.xml
-buildNumber.properties
-.mvn/timing.properties
-# https://maven.apache.org/wrapper/#usage-without-binary-jar
-.mvn/wrapper/maven-wrapper.jar
+# COMPILED CLASS FILES #
+*.class
 
-# Eclipse m2e generated files
-# Eclipse Core
+# LOGS #
+*.log
+
+# GRADLE DIRECTORIES #
+.gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# PACKAGE FILES #
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# VIRTUAL MACHINE CRASH LOGS #
+hs_err_pid*
+replay_pid*
+
+# INTELLIJ IDEA #
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# VISUAL STUDIO CODE #
+.vscode/
+
+# ECLIPSE #
 .project
-# JDT-specific (Eclipse Java Development Tools)
 .classpath
+.settings/
+.springBeans
+.apt_generated/
+.factorypath
+
+# OS GENERATED FILES #
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ENVIRONMENT VARIABLES #
+.env
+.env.*
+
+# ALLOW EXCEPTIONS #
+!gradle/wrapper/gradle-wrapper.jar
+
+bin/

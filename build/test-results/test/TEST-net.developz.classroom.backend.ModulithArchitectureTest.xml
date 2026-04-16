@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="net.developz.classroom.backend.ModulithArchitectureTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-04-16T02:24:32.822Z" hostname="ROG" time="5.028">
-  <properties/>
-  <testcase name="verifiesModularStructure()" classname="net.developz.classroom.backend.ModulithArchitectureTest" time="5.027"/>
-  <system-out><![CDATA[2026-04-15T20:24:32.944-06:00  INFO 10928 --- [    Test worker] com.tngtech.archunit.core.PluginLoader   : Detected Java version 21
-]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

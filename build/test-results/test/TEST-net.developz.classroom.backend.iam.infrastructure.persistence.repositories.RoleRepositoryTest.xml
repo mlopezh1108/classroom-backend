@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="net.developz.classroom.backend.iam.infrastructure.persistence.repositories.RoleRepositoryTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-04-16T02:24:43.814Z" hostname="ROG" time="0.302">
-  <properties/>
-  <testcase name="shouldSaveAndRetrieveRole()" classname="net.developz.classroom.backend.iam.infrastructure.persistence.repositories.RoleRepositoryTest" time="0.201"/>
-  <system-out><![CDATA[2026-04-15T20:24:43.818-06:00  INFO 10928 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [net.developz.classroom.backend.iam.infrastructure.persistence.repositories.RoleRepositoryTest]: RoleRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2026-04-15T20:24:43.903-06:00  INFO 10928 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration net.developz.classroom.backend.BackendApplication for test class net.developz.classroom.backend.iam.infrastructure.persistence.repositories.RoleRepositoryTest
-]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
