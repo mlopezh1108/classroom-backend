@@ -1,8 +1,9 @@
 package net.developz.classroom.backend.academic.application;
 
-import net.developz.classroom.backend.academic.domain.events.EnrollmentCreatedEvent;
-import net.developz.classroom.backend.academic.infrastructure.persistence.entities.Course;
-import net.developz.classroom.backend.academic.infrastructure.persistence.entities.Enrollment;
+import net.developz.classroom.backend.academic.domain.event.EnrollmentCreatedEvent;
+import net.developz.classroom.backend.academic.infrastructure.persistence.entity.Course;
+import net.developz.classroom.backend.academic.infrastructure.persistence.entity.Enrollment;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -46,7 +47,7 @@ class EnrollmentServiceTest {
         // Assert
         ArgumentCaptor<EnrollmentCreatedEvent> eventCaptor = ArgumentCaptor.forClass(EnrollmentCreatedEvent.class);
         verify(eventPublisher).publishEvent(eventCaptor.capture());
-        
+
         EnrollmentCreatedEvent emittedEvent = eventCaptor.getValue();
         assertEquals("enrollment-ulid-456", emittedEvent.enrollmentId());
         assertEquals("student-ulid-789", emittedEvent.studentId());

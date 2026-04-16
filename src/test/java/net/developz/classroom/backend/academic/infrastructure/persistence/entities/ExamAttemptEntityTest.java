@@ -7,6 +7,11 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
 
+import net.developz.classroom.backend.academic.infrastructure.persistence.entity.BooleanAttemptAnswer;
+import net.developz.classroom.backend.academic.infrastructure.persistence.entity.Enrollment;
+import net.developz.classroom.backend.academic.infrastructure.persistence.entity.ExamAttempt;
+import net.developz.classroom.backend.academic.infrastructure.persistence.entity.MultipleChoiceAttemptAnswer;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -50,11 +55,11 @@ class ExamAttemptEntityTest {
         ExamAttempt retrieved = entityManager.find(ExamAttempt.class, savedAttempt.getId());
         assertThat(retrieved).isNotNull();
         assertThat(retrieved.getAnswers()).hasSize(2);
-        
+
         // Assert Polymorphism Discriminator works!
         boolean hasBoolean = retrieved.getAnswers().stream().anyMatch(a -> a instanceof BooleanAttemptAnswer);
         boolean hasMc = retrieved.getAnswers().stream().anyMatch(a -> a instanceof MultipleChoiceAttemptAnswer);
-        
+
         assertThat(hasBoolean).isTrue();
         assertThat(hasMc).isTrue();
     }

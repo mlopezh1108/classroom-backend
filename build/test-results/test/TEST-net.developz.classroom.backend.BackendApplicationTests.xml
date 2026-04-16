@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="net.developz.classroom.backend.BackendApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-04-12T06:09:27.799Z" hostname="ROG" time="14.106">
+<testsuite name="net.developz.classroom.backend.BackendApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-04-16T02:24:15.269Z" hostname="ROG" time="17.547">
   <properties/>
-  <testcase name="contextLoads()" classname="net.developz.classroom.backend.BackendApplicationTests" time="0.704"/>
-  <system-out><![CDATA[00:09:28.000 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [net.developz.classroom.backend.BackendApplicationTests]: BackendApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-00:09:28.252 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration net.developz.classroom.backend.BackendApplication for test class net.developz.classroom.backend.BackendApplicationTests
+  <testcase name="contextLoads()" classname="net.developz.classroom.backend.BackendApplicationTests" time="0.693"/>
+  <system-out><![CDATA[20:24:15.651 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [net.developz.classroom.backend.BackendApplicationTests]: BackendApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+20:24:16.002 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration net.developz.classroom.backend.BackendApplication for test class net.developz.classroom.backend.BackendApplicationTests
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -12,20 +12,20 @@
   '  |____| .__|_| |_|_| |_\__, | / / / /
  =========|_|==============|___/=/_/_/_/
 
- :: Spring Boot ::                (v3.4.1)
+ :: Spring Boot ::               (v3.5.13)
 
-2026-04-12T00:09:29.212-06:00  INFO 16304 --- [    Test worker] n.d.c.backend.BackendApplicationTests    : Starting BackendApplicationTests using Java 21 with PID 16304 (started by mlope in C:\Users\mlope\development\backend)
-2026-04-12T00:09:29.215-06:00  INFO 16304 --- [    Test worker] n.d.c.backend.BackendApplicationTests    : The following 1 profile is active: "test"
-2026-04-12T00:09:30.876-06:00  INFO 16304 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2026-04-12T00:09:31.128-06:00  INFO 16304 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 207 ms. Found 12 JPA repository interfaces.
-2026-04-12T00:09:32.617-06:00  INFO 16304 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2026-04-12T00:09:32.873-06:00  INFO 16304 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.4.Final
-2026-04-12T00:09:32.971-06:00  INFO 16304 --- [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2026-04-12T00:09:33.599-06:00  INFO 16304 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2026-04-12T00:09:33.659-06:00  INFO 16304 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2026-04-12T00:09:33.873-06:00  INFO 16304 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.sqlite.jdbc4.JDBC4Connection@290807e5
-2026-04-12T00:09:33.875-06:00  INFO 16304 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2026-04-12T00:09:33.944-06:00  INFO 16304 --- [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+2026-04-15T20:24:17.172-06:00  INFO 10928 --- [    Test worker] n.d.c.backend.BackendApplicationTests    : Starting BackendApplicationTests using Java 21 with PID 10928 (started by mlope in C:\Users\mlope\development\backend)
+2026-04-15T20:24:17.177-06:00  INFO 10928 --- [    Test worker] n.d.c.backend.BackendApplicationTests    : The following 1 profile is active: "test"
+2026-04-15T20:24:19.554-06:00  INFO 10928 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-04-15T20:24:19.853-06:00  INFO 10928 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 265 ms. Found 13 JPA repository interfaces.
+2026-04-15T20:24:22.248-06:00  INFO 10928 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-04-15T20:24:22.470-06:00  INFO 10928 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.45.Final
+2026-04-15T20:24:22.589-06:00  INFO 10928 --- [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-04-15T20:24:23.200-06:00  INFO 10928 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-04-15T20:24:23.254-06:00  INFO 10928 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-04-15T20:24:23.444-06:00  INFO 10928 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.sqlite.jdbc4.JDBC4Connection@2a4cb8ae
+2026-04-15T20:24:23.444-06:00  INFO 10928 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-04-15T20:24:23.504-06:00  INFO 10928 --- [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
 	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
 	Database driver: undefined/unknown
 	Database version: 3.45.2
@@ -33,7 +33,7 @@
 	Isolation level: undefined/unknown
 	Minimum pool size: undefined/unknown
 	Maximum pool size: undefined/unknown
-2026-04-12T00:09:36.306-06:00  INFO 16304 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-04-15T20:24:25.927-06:00  INFO 10928 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 Hibernate: 
     drop table if exists administrator
 Hibernate: 
@@ -418,14 +418,16 @@ Hibernate:
 Hibernate: 
     create index idx_enrollment_student_course 
        on enrollment (student_id, course_id)
-2026-04-12T00:09:36.646-06:00  INFO 16304 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2026-04-12T00:09:37.856-06:00  WARN 16304 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2026-04-12T00:09:38.133-06:00  INFO 16304 --- [    Test worker] o.s.v.b.OptionalValidatorFactoryBean     : Failed to set up a Bean Validation provider: jakarta.validation.NoProviderFoundException: Unable to create a Configuration, because no Jakarta Bean Validation provider could be found. Add a provider like Hibernate Validator (RI) to your classpath.
-2026-04-12T00:09:41.094-06:00  INFO 16304 --- [    Test worker] o.s.s.config.TaskSchedulerRouter         : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
-2026-04-12T00:09:41.144-06:00  INFO 16304 --- [    Test worker] n.d.c.backend.BackendApplicationTests    : Started BackendApplicationTests in 12.585 seconds (process running for 14.297)
+2026-04-15T20:24:26.259-06:00  INFO 10928 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-04-15T20:24:27.515-06:00  INFO 10928 --- [    Test worker] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-04-15T20:24:27.515-06:00  WARN 10928 --- [    Test worker] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-04-15T20:24:28.115-06:00  WARN 10928 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-15T20:24:30.561-06:00  INFO 10928 --- [    Test worker] o.s.v.b.OptionalValidatorFactoryBean     : Failed to set up a Bean Validation provider: jakarta.validation.NoProviderFoundException: Unable to create a Configuration, because no Jakarta Bean Validation provider could be found. Add a provider like Hibernate Validator (RI) to your classpath.
+2026-04-15T20:24:32.071-06:00  INFO 10928 --- [    Test worker] o.s.s.config.TaskSchedulerRouter         : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2026-04-15T20:24:32.088-06:00  INFO 10928 --- [    Test worker] n.d.c.backend.BackendApplicationTests    : Started BackendApplicationTests in 15.732 seconds (process running for 18.602)
 ]]></system-out>
-  <system-err><![CDATA[Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build what is described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org/mockito/Mockito.html#0.3
-WARNING: A Java agent has been loaded dynamically (C:\Users\mlope\.gradle\caches\modules-2\files-2.1\net.bytebuddy\byte-buddy-agent\1.15.11\a38b16385e867f59a641330f0362ebe742788ed8\byte-buddy-agent-1.15.11.jar)
+  <system-err><![CDATA[Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (C:\Users\mlope\.gradle\caches\modules-2\files-2.1\net.bytebuddy\byte-buddy-agent\1.17.8\f09415827a71be7ed621c7bd02550678f28bc81c\byte-buddy-agent-1.17.8.jar)
 WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
 WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
 WARNING: Dynamic loading of agents will be disallowed by default in a future release
