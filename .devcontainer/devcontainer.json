@@ -7,7 +7,7 @@
   "service": "app",
   "workspaceFolder": "/workspace",
   "forwardPorts": [8080, 5432],
-  "remoteUser": "quarkus",
+  "remoteUser": "vscode",
   "features": {
     "ghcr.io/devcontainers/features/git:1": {}
   },
