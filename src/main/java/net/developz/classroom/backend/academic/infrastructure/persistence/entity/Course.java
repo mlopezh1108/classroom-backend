@@ -2,7 +2,7 @@ package net.developz.classroom.backend.academic.infrastructure.persistence.entit
 
 import jakarta.persistence.*;
 import net.developz.classroom.backend.academic.infrastructure.persistence.entity.enums.CourseStatus;
-import net.developz.classroom.backend.infrastructure.persistence.entities.BaseEntity;
+import net.developz.classroom.backend.shared.infrastructure.persistence.entities.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

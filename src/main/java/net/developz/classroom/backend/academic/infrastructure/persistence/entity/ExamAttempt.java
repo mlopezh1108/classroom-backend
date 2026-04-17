@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import net.developz.classroom.backend.academic.infrastructure.persistence.entity.enums.AttemptStatus;
-import net.developz.classroom.backend.infrastructure.persistence.entities.BaseEntity;
+import net.developz.classroom.backend.shared.infrastructure.persistence.entities.BaseEntity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

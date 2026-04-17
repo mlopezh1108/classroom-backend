@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import net.developz.classroom.backend.infrastructure.persistence.entities.BaseEntity;
+import net.developz.classroom.backend.shared.infrastructure.persistence.entities.BaseEntity;
 
 @Entity
 @Table(name = "day")

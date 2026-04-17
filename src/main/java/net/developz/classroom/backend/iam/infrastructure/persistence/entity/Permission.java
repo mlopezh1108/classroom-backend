@@ -2,7 +2,7 @@ package net.developz.classroom.backend.iam.infrastructure.persistence.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import net.developz.classroom.backend.infrastructure.persistence.entities.BaseEntity;
+import net.developz.classroom.backend.shared.infrastructure.persistence.entities.BaseEntity;
 
 @Data
 @NoArgsConstructor
