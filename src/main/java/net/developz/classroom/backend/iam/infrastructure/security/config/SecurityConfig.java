@@ -66,9 +66,4 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-    @Bean
-    public LoginUseCase loginUseCase(AuthenticationPort authenticationPort, TokenGeneratorPort tokenGeneratorPort) {
-        return new LoginUseCase(authenticationPort, tokenGeneratorPort);
-    }
 }

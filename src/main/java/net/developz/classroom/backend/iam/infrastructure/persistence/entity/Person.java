@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import net.developz.classroom.backend.infrastructure.persistence.entities.BaseEntity;
+import net.developz.classroom.backend.shared.infrastructure.persistence.entities.BaseEntity;
 
 import java.time.LocalDate;
 
@@ -33,10 +33,10 @@ public class Person extends BaseEntity {
     @Column(name = "government_id", length = 18, unique = true)
     private String governmentId;
 
-    @Column(length = 50, unique = true)
+    @Column(length = 255, unique = true)
     private String email;
 
-    @Column(length = 50)
+    @Column(length = 255)
     private String password;
 
     @Column(name = "default_role", length = 26)
