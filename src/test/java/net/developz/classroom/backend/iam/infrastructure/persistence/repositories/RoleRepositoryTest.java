@@ -6,8 +6,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import net.developz.classroom.backend.iam.infrastructure.persistence.entity.Role;
-import net.developz.classroom.backend.iam.infrastructure.persistence.repository.RoleRepository;
+import net.developz.classroom.backend.iam.access.infrastructure.persistence.entity.Role;
+import net.developz.classroom.backend.iam.access.infrastructure.persistence.repository.RoleRepository;
 
 import java.util.Optional;
 
@@ -38,3 +38,5 @@ class RoleRepositoryTest {
         assertThat(retrievedRole.get().getRoleName()).isEqualTo("ROLE_MOCK_ADMIN");
     }
 }
+
+

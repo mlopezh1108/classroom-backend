@@ -1,0 +1,34 @@
+package net.developz.classroom.backend.iam.access.infrastructure.persistence.entity;
+
+import net.developz.classroom.backend.iam.user.infrastructure.persistence.entity.Person;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import net.developz.classroom.backend.shared.infrastructure.persistence.entities.BaseEntity;
+
+@Entity
+@Table(name = "person_role")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@AttributeOverride(name = "id", column = @Column(name = "person_role_id", length = 26))
+public class PersonRole extends BaseEntity {
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "person_id")
+    private Person person;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id")
+    private Role role;
+
+    @Column(name = "active")
+    private Boolean active;
+}
+
+
+

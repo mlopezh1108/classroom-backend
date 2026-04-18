@@ -1,0 +1,15 @@
+package net.developz.classroom.backend.academic.infrastructure.persistence.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import net.developz.classroom.backend.academic.infrastructure.persistence.entity.AttemptAnswer;
+
+import java.util.List;
+
+@Repository
+public interface AttemptAnswerRepository extends JpaRepository<AttemptAnswer, String> {
+    List<AttemptAnswer> findByExamAttemptId(String attemptId);
+}
+
+

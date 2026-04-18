@@ -24,3 +24,5 @@ public interface RepositoryPort<E, ID> {
 
     void deleteById(ID id);
 }
+
+

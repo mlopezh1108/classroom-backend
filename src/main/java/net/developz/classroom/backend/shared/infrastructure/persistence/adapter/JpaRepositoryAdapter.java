@@ -51,3 +51,5 @@ public abstract class JpaRepositoryAdapter<E, ID, R extends JpaRepository<E, ID>
         repository.deleteById(id);
     }
 }
+
+
