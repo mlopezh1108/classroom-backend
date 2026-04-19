@@ -41,9 +41,9 @@ class EnrollmentPublisherTest {
     }
 
     @Test
-    void confirmEnrollment_ShouldPublishEvent() {
+    void publishEnrollmentCreated_ShouldPublishEvent() {
         // Act
-        enrollmentService.confirmEnrollment(enrollment);
+        enrollmentService.publishEnrollmentCreated(enrollment);
 
         // Assert
         ArgumentCaptor<EnrollmentCreatedEvent> eventCaptor = ArgumentCaptor.forClass(EnrollmentCreatedEvent.class);
