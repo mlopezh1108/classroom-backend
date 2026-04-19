@@ -34,4 +34,7 @@ public class Advisory extends BaseEntity {
 
     @Column(name = "time")
     private LocalTime time;
+
+    @Column(name = "notes", length = 1000)
+    private String notes;
 }

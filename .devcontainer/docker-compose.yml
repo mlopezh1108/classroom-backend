@@ -1,9 +1,0 @@
-services:
-  app:
-    # Imagen oficial de Microsoft para Java 21 con herramientas de desarrollo incluidas
-    image: mcr.microsoft.com/devcontainers/java:21
-    volumes:
-      - ../:/workspace:cached
-    command: sleep infinity
-    depends_on:
-      - db

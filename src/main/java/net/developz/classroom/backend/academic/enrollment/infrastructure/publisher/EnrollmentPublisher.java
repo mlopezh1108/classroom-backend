@@ -2,6 +2,7 @@ package net.developz.classroom.backend.academic.enrollment.infrastructure.publis
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.developz.classroom.backend.academic.enrollment.application.port.EnrollmentEventPublisherPort;
 import net.developz.classroom.backend.academic.enrollment.domain.event.EnrollmentCreatedEvent;
 import net.developz.classroom.backend.academic.enrollment.infrastructure.persistence.entity.Enrollment;
 
@@ -12,12 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class EnrollmentPublisher {
+public class EnrollmentPublisher implements EnrollmentEventPublisherPort {
 
     private final ApplicationEventPublisher eventPublisher;
 
+    @Override
     @Transactional
-    public void confirmEnrollment(Enrollment enrollment) {
+    public void publishEnrollmentCreated(Enrollment enrollment) {
         log.info("Processing enrollment for student: {} in course: {}",
                 enrollment.getStudentId(),
                 enrollment.getCourse().getId());
