@@ -18,7 +18,7 @@ public class ExamAttemptRepositoryAdapter extends JpaRepositoryAdapter<ExamAttem
 
     @Override
     public List<ExamAttempt> findByEnrollmentId(String enrollmentId) {
-        return repository.findByEnrollment_Id(enrollmentId);
+        return repository.findByEnrollmentId(enrollmentId);
     }
 
     @Override

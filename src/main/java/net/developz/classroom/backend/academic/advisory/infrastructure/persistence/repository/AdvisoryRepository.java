@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface AdvisoryRepository extends JpaRepository<Advisory, String> {
-    List<Advisory> findByEnrollment_Id(String enrollmentId);
+    List<Advisory> findByEnrollmentId(String enrollmentId);
 }

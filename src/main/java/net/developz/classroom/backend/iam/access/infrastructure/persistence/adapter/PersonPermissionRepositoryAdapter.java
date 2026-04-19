@@ -18,7 +18,7 @@ public class PersonPermissionRepositoryAdapter extends JpaRepositoryAdapter<Pers
 
     @Override
     public List<PersonPermission> findByPersonIdAndActiveTrue(String personId) {
-        return repository.findByPerson_IdAndActiveTrue(personId);
+        return repository.findByPersonIdAndActiveTrue(personId);
     }
 }
 

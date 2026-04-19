@@ -2,7 +2,7 @@ package net.developz.classroom.backend.academic.advisory.infrastructure.persiste
 
 import jakarta.persistence.*;
 import net.developz.classroom.backend.academic.advisory.infrastructure.persistence.entity.enums.AdvisoryStatus;
-import net.developz.classroom.backend.academic.enrollment.infrastructure.persistence.entity.Enrollment;
+
 import net.developz.classroom.backend.shared.infrastructure.persistence.entities.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,9 +25,8 @@ public class Advisory extends BaseEntity {
     @Column(name = "status", length = 20)
     private AdvisoryStatus status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "enrollment_id")
-    private Enrollment enrollment;
+    @Column(name = "enrollment_id", length = 26)
+    private String enrollmentId;
 
     @Column(name = "date")
     private LocalDate date;

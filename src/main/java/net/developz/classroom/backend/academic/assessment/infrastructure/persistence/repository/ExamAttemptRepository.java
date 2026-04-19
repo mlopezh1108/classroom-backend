@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface ExamAttemptRepository extends JpaRepository<ExamAttempt, String> {
-    List<ExamAttempt> findByEnrollment_Id(String enrollmentId);
+    List<ExamAttempt> findByEnrollmentId(String enrollmentId);
     List<ExamAttempt> findByExamId(String examId);
 }

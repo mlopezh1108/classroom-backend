@@ -5,7 +5,6 @@ import net.developz.classroom.backend.catalog.exam.application.dto.CreateExamReq
 import net.developz.classroom.backend.catalog.exam.application.port.ExamRepositoryPort;
 import net.developz.classroom.backend.catalog.exam.infrastructure.persistence.entity.Exam;
 import net.developz.classroom.backend.catalog.subject.application.port.SubjectRepositoryPort;
-import net.developz.classroom.backend.catalog.subject.infrastructure.persistence.entity.Subject;
 import net.developz.classroom.backend.shared.application.annotation.UseCase;
 import net.developz.classroom.backend.shared.application.exception.EntityNotFoundException;
 
@@ -16,13 +15,14 @@ public class CreateExamUseCase {
     private final SubjectRepositoryPort subjectRepositoryPort;
 
     public Exam execute(CreateExamRequest request) {
-        Subject subject = subjectRepositoryPort.findById(request.subjectId())
-                .orElseThrow(() -> new EntityNotFoundException("Subject not found", CreateExamUseCase.class, Subject.class));
+        if (!subjectRepositoryPort.existsById(request.subjectId())) {
+            throw new EntityNotFoundException("Subject not found: " + request.subjectId(), CreateExamUseCase.class, null);
+        }
 
         Exam exam = new Exam();
         exam.setTitle(request.title());
         exam.setDescription(request.description());
-        exam.setSubject(subject);
+        exam.setSubjectId(request.subjectId());
         
         return examRepositoryPort.save(exam);
     }

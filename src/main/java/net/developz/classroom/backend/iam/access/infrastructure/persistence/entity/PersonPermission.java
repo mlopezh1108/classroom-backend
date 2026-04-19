@@ -1,6 +1,6 @@
 package net.developz.classroom.backend.iam.access.infrastructure.persistence.entity;
 
-import net.developz.classroom.backend.iam.user.infrastructure.persistence.entity.Person;
+
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -18,9 +18,8 @@ import net.developz.classroom.backend.shared.infrastructure.persistence.entities
 @AttributeOverride(name = "id", column = @Column(name = "person_permission_id", length = 26))
 public class PersonPermission extends BaseEntity {
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "person_id", nullable = false)
-    private Person person;
+    @Column(name = "person_id", length = 26, nullable = false)
+    private String personId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "permission_id", nullable = false)

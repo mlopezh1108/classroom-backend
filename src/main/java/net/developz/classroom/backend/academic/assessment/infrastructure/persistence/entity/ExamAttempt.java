@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import net.developz.classroom.backend.academic.assessment.infrastructure.persistence.entity.enums.AttemptStatus;
-import net.developz.classroom.backend.academic.enrollment.infrastructure.persistence.entity.Enrollment;
+
 import net.developz.classroom.backend.shared.infrastructure.persistence.entities.BaseEntity;
 
 import java.time.LocalDateTime;
@@ -22,9 +22,8 @@ import java.util.List;
 @AttributeOverride(name = "id", column = @Column(name = "exam_attempt_id", length = 26))
 public class ExamAttempt extends BaseEntity {
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "enrollment_id")
-    private Enrollment enrollment;
+    @Column(name = "enrollment_id", length = 26)
+    private String enrollmentId;
 
     @Column(name = "exam_id", length = 26)
     private String examId;

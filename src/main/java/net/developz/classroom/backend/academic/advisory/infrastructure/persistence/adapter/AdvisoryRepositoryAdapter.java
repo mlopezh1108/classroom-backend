@@ -18,6 +18,6 @@ public class AdvisoryRepositoryAdapter extends JpaRepositoryAdapter<Advisory, St
 
     @Override
     public List<Advisory> findByEnrollmentId(String enrollmentId) {
-        return repository.findByEnrollment_Id(enrollmentId);
+        return repository.findByEnrollmentId(enrollmentId);
     }
 }

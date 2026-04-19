@@ -31,7 +31,7 @@ class ExamAttemptEntityTest {
 
         // Arrange Attempt
         ExamAttempt attempt = new ExamAttempt();
-        attempt.setEnrollment(enrollment);
+        attempt.setEnrollmentId(enrollment.getId());
         attempt.setExamId("exam-ulid-1");
 
         // Arrange Polymorphic Answers

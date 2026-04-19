@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import net.developz.classroom.backend.catalog.resource.infrastructure.persistence.entity.constant.ResourceType;
-import net.developz.classroom.backend.catalog.subject.infrastructure.persistence.entity.Subject;
+
 import net.developz.classroom.backend.shared.infrastructure.persistence.entities.BaseEntity;
 
 @Entity
@@ -28,9 +28,8 @@ public class Resource extends BaseEntity {
     @Column(name = "content_url", length = 500, nullable = false)
     private String contentUrl;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "subject_id", nullable = false)
-    private Subject subject;
+    @Column(name = "subject_id", length = 26, nullable = false)
+    private String subjectId;
 }
 
 

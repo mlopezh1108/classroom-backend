@@ -1,6 +1,6 @@
 package net.developz.classroom.backend.catalog.exam.infrastructure.persistence.entity;
 
-import net.developz.classroom.backend.catalog.subject.infrastructure.persistence.entity.Subject;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,9 +26,8 @@ public class Exam extends BaseEntity {
     @Column(name = "description", length = 500)
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "subject_id", nullable = false)
-    private Subject subject;
+    @Column(name = "subject_id", length = 26, nullable = false)
+    private String subjectId;
 
     @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Question> questions = new ArrayList<>();

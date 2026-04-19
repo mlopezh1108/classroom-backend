@@ -9,10 +9,7 @@ import java.util.List;
 
 @Repository
 public interface PersonPermissionRepository extends JpaRepository<PersonPermission, String> {
-    List<PersonPermission> findByPerson_Id(String personId);
+    List<PersonPermission> findByPersonId(String personId);
 
-    List<PersonPermission> findByPerson_IdAndActiveTrue(String personId);
+    List<PersonPermission> findByPersonIdAndActiveTrue(String personId);
 }
-
-
-

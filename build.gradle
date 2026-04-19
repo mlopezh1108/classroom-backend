@@ -1,6 +1,6 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.5.13'
+	id 'org.springframework.boot' version '3.4.3'
 	id 'io.spring.dependency-management' version '1.1.7'
 }
 
@@ -23,8 +23,8 @@ ext {
 
 dependencies {
 	// Platform / BOM
-	implementation platform('org.springframework.boot:spring-boot-dependencies:3.5.13')
-	annotationProcessor platform('org.springframework.boot:spring-boot-dependencies:3.5.13')
+	implementation platform('org.springframework.boot:spring-boot-dependencies:3.4.3')
+	annotationProcessor platform('org.springframework.boot:spring-boot-dependencies:3.4.3')
 	implementation platform("org.springframework.modulith:spring-modulith-bom:${springModulithVersion}")
 
 	// MapStruct
@@ -61,6 +61,7 @@ dependencies {
 	testImplementation 'org.hibernate.orm:hibernate-community-dialects'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.modulith:spring-modulith-starter-test'
+	testImplementation 'com.tngtech.archunit:archunit:1.4.1'
 	testCompileOnly 'org.projectlombok:lombok'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	testAnnotationProcessor 'org.projectlombok:lombok'
