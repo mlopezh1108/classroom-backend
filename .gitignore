@@ -58,3 +58,4 @@ Thumbs.db
 !gradle/wrapper/gradle-wrapper.jar
 
 bin/
+memory:testdb?cache=shared
