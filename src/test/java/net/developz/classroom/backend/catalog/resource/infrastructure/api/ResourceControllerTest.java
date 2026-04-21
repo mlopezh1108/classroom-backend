@@ -9,7 +9,7 @@ import net.developz.classroom.backend.catalog.resource.application.usecase.Delet
 import net.developz.classroom.backend.catalog.resource.application.usecase.ListSubjectResourcesUseCase;
 import net.developz.classroom.backend.catalog.resource.application.usecase.UpdateResourceUseCase;
 import net.developz.classroom.backend.catalog.resource.infrastructure.mapper.ResourceMapper;
-import net.developz.classroom.backend.catalog.resource.infrastructure.persistence.entity.Resource;
+import net.developz.classroom.backend.catalog.resource.domain.model.Resource;
 import net.developz.classroom.backend.catalog.resource.infrastructure.persistence.entity.constant.ResourceType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +21,8 @@ import net.developz.classroom.backend.iam.auth.infrastructure.security.jwt.JwtSe
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -67,11 +69,11 @@ class ResourceControllerTest {
         ResourceDTO dto = new ResourceDTO("res-1", "Title", ResourceType.PDF, "url", "sub-1");
 
         when(createResourceUseCase.execute(any(CreateResourceRequest.class))).thenReturn(resource);
-        when(mapper.toDTO(any(Resource.class))).thenReturn(dto);
+        when(mapper.toDto(any(Resource.class))).thenReturn(dto);
 
         mockMvc.perform(post("/api/v1/resources")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value("res-1"));
     }
@@ -83,18 +85,19 @@ class ResourceControllerTest {
         ResourceDTO dto = new ResourceDTO("res-1", "New Title", ResourceType.PDF, "new-url", "sub-1");
 
         when(updateResourceUseCase.execute(eq("res-1"), any(UpdateResourceRequest.class))).thenReturn(resource);
-        when(mapper.toDTO(any(Resource.class))).thenReturn(dto);
+        when(mapper.toDto(any(Resource.class))).thenReturn(dto);
 
         mockMvc.perform(put("/api/v1/resources/res-1")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title").value("New Title"));
     }
 
     @Test
     void shouldListSubjectResources() throws Exception {
-        when(listSubjectResourcesUseCase.execute("sub-1")).thenReturn(List.of(new Resource()));
+        when(listSubjectResourcesUseCase.execute(eq("sub-1"), any(Pageable.class)))
+                .thenReturn(new PageImpl<>(List.of(new Resource())));
 
         mockMvc.perform(get("/api/v1/resources/subject/sub-1"))
                 .andExpect(status().isOk());

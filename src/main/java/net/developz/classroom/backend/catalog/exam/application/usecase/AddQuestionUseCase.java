@@ -5,7 +5,7 @@ import net.developz.classroom.backend.catalog.exam.application.dto.CreateMatchin
 import net.developz.classroom.backend.catalog.exam.application.dto.CreateQuestionOptionRequest;
 import net.developz.classroom.backend.catalog.exam.application.dto.CreateQuestionRequest;
 import net.developz.classroom.backend.catalog.exam.application.port.ExamRepositoryPort;
-import net.developz.classroom.backend.catalog.exam.infrastructure.persistence.entity.*;
+import net.developz.classroom.backend.catalog.exam.domain.model.*;
 import net.developz.classroom.backend.shared.application.annotation.UseCase;
 import net.developz.classroom.backend.shared.application.exception.EntityNotFoundException;
 

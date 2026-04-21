@@ -15,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import net.developz.classroom.backend.iam.access.application.port.PersonPermissionRepositoryPort;
 import net.developz.classroom.backend.iam.user.application.port.PersonRepositoryPort;
 import net.developz.classroom.backend.iam.access.application.port.PersonRoleRepositoryPort;
+import net.developz.classroom.backend.iam.access.domain.model.PersonPermission;
+import net.developz.classroom.backend.iam.access.domain.model.PersonRole;
 
 @Service
 @RequiredArgsConstructor
@@ -32,7 +34,9 @@ public class PersonDetailsService implements UserDetailsService {
                                         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
 
                                         // 1. Load Role-based permissions
-                                        personRoleRepository.findByPersonIdAndActiveTrue(person.getId())
+                                        personRoleRepository.findByPersonId(person.getId())
+                                                        .stream()
+                                                        .filter(PersonRole::getActive)
                                                         .forEach(personRole -> {
                                                                 // Add the role itself (e.g., ROLE_ADMIN)
                                                                 authorities.add(new SimpleGrantedAuthority("ROLE_"
@@ -47,7 +51,9 @@ public class PersonDetailsService implements UserDetailsService {
                                                         });
 
                                         // 2. Load Person-specific direct permissions
-                                        personPermissionRepository.findByPersonIdAndActiveTrue(person.getId())
+                                        personPermissionRepository.findByPersonId(person.getId())
+                                                        .stream()
+                                                        .filter(PersonPermission::getActive)
                                                         .forEach(personPermission -> authorities.add(
                                                                         new SimpleGrantedAuthority(personPermission
                                                                                         .getPermission()

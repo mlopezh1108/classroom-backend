@@ -6,14 +6,13 @@ import net.developz.classroom.backend.catalog.period.application.dto.PeriodRespo
 import net.developz.classroom.backend.catalog.period.application.dto.UpdatePeriodRequest;
 import net.developz.classroom.backend.catalog.period.application.usecase.*;
 import net.developz.classroom.backend.catalog.period.infrastructure.mapper.PeriodMapper;
-import net.developz.classroom.backend.catalog.period.infrastructure.persistence.entity.Period;
+import net.developz.classroom.backend.catalog.period.domain.model.Period;
+import net.developz.classroom.backend.shared.application.dto.PageResponse;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/catalog/periods")
@@ -29,11 +28,9 @@ public class PeriodController {
 
     @GetMapping
     @PreAuthorize("hasAuthority('PERIOD_VIEW')")
-    public ResponseEntity<List<PeriodResponse>> getAllPeriods() {
-        List<PeriodResponse> periods = findAllPeriodsUseCase.execute().stream()
-                .map(periodMapper::toDto)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(periods);
+    public ResponseEntity<PageResponse<PeriodResponse>> getAllPeriods(Pageable pageable) {
+        return ResponseEntity.ok(PageResponse.from(
+                findAllPeriodsUseCase.execute(pageable).map(periodMapper::toDto)));
     }
 
     @GetMapping("/{id}")
@@ -46,16 +43,17 @@ public class PeriodController {
     @PostMapping
     @PreAuthorize("hasAuthority('PERIOD_CREATE')")
     public ResponseEntity<PeriodResponse> createPeriod(@RequestBody CreatePeriodRequest request) {
-        Period period = periodMapper.toEntity(request);
+        Period period = periodMapper.toModel(request);
         Period savedPeriod = createPeriodUseCase.execute(period);
         return ResponseEntity.status(HttpStatus.CREATED).body(periodMapper.toDto(savedPeriod));
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('PERIOD_UPDATE')")
-    public ResponseEntity<PeriodResponse> updatePeriod(@PathVariable String id, @RequestBody UpdatePeriodRequest request) {
+    public ResponseEntity<PeriodResponse> updatePeriod(@PathVariable String id,
+            @RequestBody UpdatePeriodRequest request) {
         Period existingPeriod = findPeriodByIdUseCase.execute(id);
-        periodMapper.updateEntityFromRequest(request, existingPeriod);
+        periodMapper.updateModelFromRequest(request, existingPeriod);
         Period updatedPeriod = updatePeriodUseCase.execute(existingPeriod);
         return ResponseEntity.ok(periodMapper.toDto(updatedPeriod));
     }

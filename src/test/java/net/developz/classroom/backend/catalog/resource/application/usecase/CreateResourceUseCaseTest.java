@@ -2,18 +2,16 @@ package net.developz.classroom.backend.catalog.resource.application.usecase;
 
 import net.developz.classroom.backend.catalog.resource.application.dto.CreateResourceRequest;
 import net.developz.classroom.backend.catalog.resource.application.port.ResourceRepositoryPort;
-import net.developz.classroom.backend.catalog.resource.infrastructure.persistence.entity.Resource;
+import net.developz.classroom.backend.catalog.resource.infrastructure.mapper.ResourceMapper;
+import net.developz.classroom.backend.catalog.resource.domain.model.Resource;
 import net.developz.classroom.backend.catalog.resource.infrastructure.persistence.entity.constant.ResourceType;
 import net.developz.classroom.backend.catalog.subject.application.port.SubjectRepositoryPort;
-import net.developz.classroom.backend.catalog.subject.infrastructure.persistence.entity.Subject;
 import net.developz.classroom.backend.shared.application.exception.EntityNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -30,6 +28,9 @@ class CreateResourceUseCaseTest {
     @Mock
     private SubjectRepositoryPort subjectRepositoryPort;
 
+    @Mock
+    private ResourceMapper resourceMapper;
+
     @InjectMocks
     private CreateResourceUseCase useCase;
 
@@ -37,10 +38,11 @@ class CreateResourceUseCaseTest {
     void shouldCreateResource() {
         String subjectId = "sub-1";
         CreateResourceRequest request = new CreateResourceRequest("Title", ResourceType.PDF, "url", subjectId);
-        Subject subject = new Subject();
-        
+        Resource resource = new Resource();
+
         when(subjectRepositoryPort.existsById(subjectId)).thenReturn(true);
-        when(resourceRepositoryPort.save(any(Resource.class))).thenReturn(new Resource());
+        when(resourceMapper.toModel(request)).thenReturn(resource);
+        when(resourceRepositoryPort.save(any(Resource.class))).thenReturn(resource);
 
         Resource result = useCase.execute(request);
 
@@ -52,7 +54,7 @@ class CreateResourceUseCaseTest {
     void shouldThrowExceptionWhenSubjectNotFound() {
         String subjectId = "unknown";
         CreateResourceRequest request = new CreateResourceRequest("Title", ResourceType.PDF, "url", subjectId);
-        
+
         when(subjectRepositoryPort.existsById(subjectId)).thenReturn(false);
 
         assertThatThrownBy(() -> useCase.execute(request))

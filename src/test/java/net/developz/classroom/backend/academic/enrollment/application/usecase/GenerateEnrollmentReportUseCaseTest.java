@@ -2,8 +2,8 @@ package net.developz.classroom.backend.academic.enrollment.application.usecase;
 
 import net.developz.classroom.backend.academic.enrollment.application.dto.EnrollmentReportResponse;
 import net.developz.classroom.backend.academic.enrollment.application.port.EnrollmentRepositoryPort;
-import net.developz.classroom.backend.academic.enrollment.infrastructure.persistence.entity.Enrollment;
-import net.developz.classroom.backend.academic.course.infrastructure.persistence.entity.Course;
+import net.developz.classroom.backend.academic.enrollment.domain.model.Enrollment;
+import net.developz.classroom.backend.academic.course.domain.model.Course;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

@@ -1,7 +1,7 @@
 package net.developz.classroom.backend.academic.course.application.usecase;
 
 import net.developz.classroom.backend.academic.course.application.port.CourseRepositoryPort;
-import net.developz.classroom.backend.academic.course.infrastructure.persistence.entity.Course;
+import net.developz.classroom.backend.academic.course.domain.model.Course;
 import net.developz.classroom.backend.shared.application.exception.EntityNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,6 +1,6 @@
 package net.developz.classroom.backend.iam.user.application.port;
 
-import net.developz.classroom.backend.iam.user.infrastructure.persistence.entity.Person;
+import net.developz.classroom.backend.iam.user.domain.model.Person;
 import net.developz.classroom.backend.shared.application.port.RepositoryPort;
 
 import java.util.Optional;

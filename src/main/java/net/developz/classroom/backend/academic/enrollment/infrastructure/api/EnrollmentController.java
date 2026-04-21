@@ -2,22 +2,16 @@ package net.developz.classroom.backend.academic.enrollment.infrastructure.api;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import net.developz.classroom.backend.academic.enrollment.application.dto.EnrollmentDTO;
-import net.developz.classroom.backend.academic.enrollment.application.dto.EnrollStudentRequest;
-import net.developz.classroom.backend.academic.enrollment.application.usecase.DropCourseUseCase;
-import net.developz.classroom.backend.academic.enrollment.application.usecase.EnrollStudentUseCase;
-import net.developz.classroom.backend.academic.enrollment.application.usecase.GetCourseRosterUseCase;
-import net.developz.classroom.backend.academic.enrollment.application.usecase.GenerateEnrollmentReportUseCase;
-import net.developz.classroom.backend.academic.enrollment.application.dto.EnrollmentReportResponse;
+import net.developz.classroom.backend.academic.enrollment.application.dto.*;
+import net.developz.classroom.backend.academic.enrollment.application.usecase.*;
 import net.developz.classroom.backend.academic.enrollment.infrastructure.mapper.EnrollmentMapper;
-import net.developz.classroom.backend.academic.enrollment.infrastructure.persistence.entity.Enrollment;
-
+import net.developz.classroom.backend.academic.enrollment.domain.model.Enrollment;
+import net.developz.classroom.backend.shared.application.dto.PageResponse;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/enrollments")
@@ -32,9 +26,9 @@ public class EnrollmentController {
 
     @PostMapping
     public ResponseEntity<EnrollmentDTO> enrollStudent(@Valid @RequestBody EnrollStudentRequest request) {
-        Enrollment entity = mapper.toEntity(request);
-        Enrollment saved = enrollStudentUseCase.execute(entity);
-        return new ResponseEntity<>(mapper.toDTO(saved), HttpStatus.CREATED);
+        Enrollment model = mapper.toModel(request);
+        Enrollment saved = enrollStudentUseCase.execute(model);
+        return new ResponseEntity<>(mapper.toDto(saved), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
@@ -43,13 +37,14 @@ public class EnrollmentController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/course/{courseId}")
-    public ResponseEntity<List<EnrollmentDTO>> getCourseRoster(@PathVariable String courseId) {
-        List<Enrollment> enrollments = getCourseRosterUseCase.execute(courseId);
-        List<EnrollmentDTO> dtoList = enrollments.stream()
-                .map(mapper::toDTO)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(dtoList);
+    @GetMapping("/roster/{courseId}")
+    @PreAuthorize("hasAuthority('ENROLL_VIEW')")
+    public ResponseEntity<PageResponse<EnrollmentDTO>> getCourseRoster(
+            @PathVariable String courseId,
+            Pageable pageable) {
+        return ResponseEntity.ok(PageResponse.from(
+                getCourseRosterUseCase.execute(courseId, pageable).map(mapper::toDto)
+        ));
     }
 
     @GetMapping("/report/period/{periodId}")

@@ -1,8 +1,8 @@
 package net.developz.classroom.backend.academic.infrastructure.publisher;
 
 import net.developz.classroom.backend.academic.enrollment.domain.event.EnrollmentCreatedEvent;
-import net.developz.classroom.backend.academic.course.infrastructure.persistence.entity.Course;
-import net.developz.classroom.backend.academic.enrollment.infrastructure.persistence.entity.Enrollment;
+import net.developz.classroom.backend.academic.course.domain.model.Course;
+import net.developz.classroom.backend.academic.enrollment.domain.model.Enrollment;
 import net.developz.classroom.backend.academic.enrollment.infrastructure.publisher.EnrollmentPublisher;
 
 import org.junit.jupiter.api.BeforeEach;

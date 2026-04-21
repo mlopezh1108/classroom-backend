@@ -7,10 +7,10 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
 
-import net.developz.classroom.backend.academic.assessment.infrastructure.persistence.entity.BooleanAttemptAnswer;
-import net.developz.classroom.backend.academic.enrollment.infrastructure.persistence.entity.Enrollment;
-import net.developz.classroom.backend.academic.assessment.infrastructure.persistence.entity.ExamAttempt;
-import net.developz.classroom.backend.academic.assessment.infrastructure.persistence.entity.MultipleChoiceAttemptAnswer;
+import net.developz.classroom.backend.academic.assessment.infrastructure.persistence.entity.BooleanAttemptAnswerEntity;
+import net.developz.classroom.backend.academic.enrollment.infrastructure.persistence.entity.EnrollmentEntity;
+import net.developz.classroom.backend.academic.assessment.infrastructure.persistence.entity.ExamAttemptEntity;
+import net.developz.classroom.backend.academic.assessment.infrastructure.persistence.entity.MultipleChoiceAttemptAnswerEntity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -25,44 +25,43 @@ class ExamAttemptEntityTest {
     @Test
     void shouldPersistPolymorphicAttemptAnswers() {
         // Arrange Enrollment to satisfy constraint
-        Enrollment enrollment = new Enrollment();
+        EnrollmentEntity enrollment = new EnrollmentEntity();
         enrollment.setStudentId("student-ulid-1");
         enrollment = entityManager.persist(enrollment);
 
         // Arrange Attempt
-        ExamAttempt attempt = new ExamAttempt();
+        ExamAttemptEntity attempt = new ExamAttemptEntity();
         attempt.setEnrollmentId(enrollment.getId());
         attempt.setExamId("exam-ulid-1");
 
         // Arrange Polymorphic Answers
-        BooleanAttemptAnswer booleanAnswer = new BooleanAttemptAnswer();
+        BooleanAttemptAnswerEntity booleanAnswer = new BooleanAttemptAnswerEntity();
         booleanAnswer.setQuestionId("boolean-q-1");
         booleanAnswer.setExamAttempt(attempt);
-        // Normally you'd set true/false if subclass has fields
+        booleanAnswer.setResponseValue(true);
 
-        MultipleChoiceAttemptAnswer mcAnswer = new MultipleChoiceAttemptAnswer();
+        MultipleChoiceAttemptAnswerEntity mcAnswer = new MultipleChoiceAttemptAnswerEntity();
         mcAnswer.setQuestionId("mc-q-1");
         mcAnswer.setExamAttempt(attempt);
+        mcAnswer.setSelectedOptionId("opt-1");
 
         attempt.getAnswers().add(booleanAnswer);
         attempt.getAnswers().add(mcAnswer);
 
         // Act
-        ExamAttempt savedAttempt = entityManager.persistAndFlush(attempt);
+        ExamAttemptEntity savedAttempt = entityManager.persistAndFlush(attempt);
         entityManager.clear(); // Clear context to force SQL query
 
         // Assert
-        ExamAttempt retrieved = entityManager.find(ExamAttempt.class, savedAttempt.getId());
+        ExamAttemptEntity retrieved = entityManager.find(ExamAttemptEntity.class, savedAttempt.getId());
         assertThat(retrieved).isNotNull();
         assertThat(retrieved.getAnswers()).hasSize(2);
 
         // Assert Polymorphism Discriminator works!
-        boolean hasBoolean = retrieved.getAnswers().stream().anyMatch(a -> a instanceof BooleanAttemptAnswer);
-        boolean hasMc = retrieved.getAnswers().stream().anyMatch(a -> a instanceof MultipleChoiceAttemptAnswer);
+        boolean hasBoolean = retrieved.getAnswers().stream().anyMatch(a -> a instanceof BooleanAttemptAnswerEntity);
+        boolean hasMc = retrieved.getAnswers().stream().anyMatch(a -> a instanceof MultipleChoiceAttemptAnswerEntity);
 
         assertThat(hasBoolean).isTrue();
         assertThat(hasMc).isTrue();
     }
 }
-
-

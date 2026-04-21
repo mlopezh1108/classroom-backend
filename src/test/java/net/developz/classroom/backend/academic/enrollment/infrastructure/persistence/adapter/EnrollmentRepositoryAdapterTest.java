@@ -1,7 +1,10 @@
 package net.developz.classroom.backend.academic.enrollment.infrastructure.persistence.adapter;
 
-import net.developz.classroom.backend.academic.enrollment.infrastructure.persistence.entity.Enrollment;
-import net.developz.classroom.backend.academic.course.infrastructure.persistence.entity.Course;
+import net.developz.classroom.backend.academic.enrollment.domain.model.Enrollment;
+import net.developz.classroom.backend.academic.enrollment.infrastructure.mapper.EnrollmentMapperImpl;
+import net.developz.classroom.backend.academic.course.infrastructure.mapper.CourseMapperImpl;
+import net.developz.classroom.backend.academic.enrollment.infrastructure.persistence.entity.EnrollmentEntity;
+import net.developz.classroom.backend.academic.course.infrastructure.persistence.entity.CourseEntity;
 import net.developz.classroom.backend.academic.enrollment.infrastructure.persistence.repository.EnrollmentRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Import(EnrollmentRepositoryAdapter.class)
+@Import({ EnrollmentRepositoryAdapter.class, EnrollmentMapperImpl.class, CourseMapperImpl.class })
 class EnrollmentRepositoryAdapterTest {
 
     @Autowired
@@ -30,11 +33,12 @@ class EnrollmentRepositoryAdapterTest {
 
     @Test
     void shouldSaveAndFindByCourseId() {
-        Course course = new Course();
+        CourseEntity course = new CourseEntity();
         course.setId("course-1");
+        course.setCourseCode("C1");
         entityManager.persist(course);
-        
-        Enrollment enrollment = new Enrollment();
+
+        EnrollmentEntity enrollment = new EnrollmentEntity();
         enrollment.setCourse(course);
         enrollment.setStudentId("student-1");
         repository.save(enrollment);

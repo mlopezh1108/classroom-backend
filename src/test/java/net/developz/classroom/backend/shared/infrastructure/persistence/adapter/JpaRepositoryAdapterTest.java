@@ -56,9 +56,19 @@ class JpaRepositoryAdapterTest {
         verify(repository).deleteById("1");
     }
 
-    private static class TestAdapter extends JpaRepositoryAdapter<Object, String, JpaRepository<Object, String>> {
+    private static class TestAdapter extends JpaRepositoryAdapter<Object, Object, String, JpaRepository<Object, String>> {
         public TestAdapter(JpaRepository<Object, String> repository) {
             super(repository);
+        }
+
+        @Override
+        protected Object toModel(Object entity) {
+            return entity;
+        }
+
+        @Override
+        protected Object toEntity(Object model) {
+            return model;
         }
     }
 }

@@ -7,8 +7,8 @@ import net.developz.classroom.backend.academic.assessment.application.dto.Submit
 import net.developz.classroom.backend.academic.assessment.application.dto.AnswerType;
 import net.developz.classroom.backend.academic.assessment.application.usecase.*;
 import net.developz.classroom.backend.academic.assessment.infrastructure.mapper.AssessmentMapper;
-import net.developz.classroom.backend.academic.assessment.infrastructure.persistence.entity.ExamAttempt;
-import net.developz.classroom.backend.academic.assessment.infrastructure.persistence.entity.enums.AttemptStatus;
+import net.developz.classroom.backend.academic.assessment.domain.model.ExamAttempt;
+import net.developz.classroom.backend.academic.assessment.domain.model.enums.AttemptStatus;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -66,9 +66,9 @@ class AssessmentControllerTest {
         ExamAttempt attempt = new ExamAttempt();
         ExamAttemptDTO dto = new ExamAttemptDTO("att-1", "enroll-1", "exam-1", null, null, null, AttemptStatus.STARTED);
 
-        when(mapper.toEntity(any(StartExamAttemptRequest.class))).thenReturn(attempt);
+        when(mapper.toModel(any(StartExamAttemptRequest.class))).thenReturn(attempt);
         when(startExamAttemptUseCase.execute(any(ExamAttempt.class))).thenReturn(attempt);
-        when(mapper.toDTO(any(ExamAttempt.class))).thenReturn(dto);
+        when(mapper.toDto(any(ExamAttempt.class))).thenReturn(dto);
 
         mockMvc.perform(post("/api/v1/assessments/attempts")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -84,7 +84,7 @@ class AssessmentControllerTest {
         ExamAttemptDTO dto = new ExamAttemptDTO("att-1", "enroll-1", "exam-1", null, null, null, AttemptStatus.IN_PROGRESS);
 
         when(submitExamAnswerUseCase.execute(eq("att-1"), any(SubmitAnswerRequest.class))).thenReturn(attempt);
-        when(mapper.toDTO(any(ExamAttempt.class))).thenReturn(dto);
+        when(mapper.toDto(any(ExamAttempt.class))).thenReturn(dto);
 
         mockMvc.perform(post("/api/v1/assessments/attempts/att-1/answers")
                         .contentType(MediaType.APPLICATION_JSON)

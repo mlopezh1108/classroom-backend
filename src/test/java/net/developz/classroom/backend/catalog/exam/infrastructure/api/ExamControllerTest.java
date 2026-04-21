@@ -9,7 +9,7 @@ import net.developz.classroom.backend.catalog.exam.application.usecase.CreateExa
 import net.developz.classroom.backend.catalog.exam.application.usecase.DeleteQuestionUseCase;
 import net.developz.classroom.backend.catalog.exam.application.usecase.GetExamDetailsUseCase;
 import net.developz.classroom.backend.catalog.exam.infrastructure.mapper.ExamMapper;
-import net.developz.classroom.backend.catalog.exam.infrastructure.persistence.entity.Exam;
+import net.developz.classroom.backend.catalog.exam.domain.model.Exam;
 import net.developz.classroom.backend.catalog.exam.infrastructure.persistence.entity.QuestionType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +65,7 @@ class ExamControllerTest {
         ExamDTO dto = new ExamDTO("exam-1", "Exam Title", "Desc", "sub-1", null);
 
         when(createExamUseCase.execute(any(CreateExamRequest.class))).thenReturn(exam);
-        when(mapper.toDTO(any(Exam.class))).thenReturn(dto);
+        when(mapper.toDto(any(Exam.class))).thenReturn(dto);
 
         mockMvc.perform(post("/api/v1/exams")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -81,7 +81,7 @@ class ExamControllerTest {
         ExamDTO dto = new ExamDTO("exam-1", "Exam Title", "Desc", "sub-1", null);
 
         when(addQuestionUseCase.execute(any(CreateQuestionRequest.class))).thenReturn(exam);
-        when(mapper.toDTO(any(Exam.class))).thenReturn(dto);
+        when(mapper.toDto(any(Exam.class))).thenReturn(dto);
 
         mockMvc.perform(post("/api/v1/exams/questions")
                         .contentType(MediaType.APPLICATION_JSON)

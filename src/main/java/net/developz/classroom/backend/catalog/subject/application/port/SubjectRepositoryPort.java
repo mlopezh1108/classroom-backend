@@ -1,6 +1,6 @@
 package net.developz.classroom.backend.catalog.subject.application.port;
 
-import net.developz.classroom.backend.catalog.subject.infrastructure.persistence.entity.Subject;
+import net.developz.classroom.backend.catalog.subject.domain.model.Subject;
 import net.developz.classroom.backend.shared.application.port.RepositoryPort;
 
 /**
@@ -11,5 +11,4 @@ public interface SubjectRepositoryPort extends RepositoryPort<Subject, String> {
 
     boolean existsBySubjectCode(String subjectCode);
 }
-
 

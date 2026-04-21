@@ -8,7 +8,7 @@ import net.developz.classroom.backend.academic.enrollment.application.usecase.En
 import net.developz.classroom.backend.academic.enrollment.application.usecase.GetCourseRosterUseCase;
 import net.developz.classroom.backend.academic.enrollment.application.usecase.GenerateEnrollmentReportUseCase;
 import net.developz.classroom.backend.academic.enrollment.infrastructure.mapper.EnrollmentMapper;
-import net.developz.classroom.backend.academic.enrollment.infrastructure.persistence.entity.Enrollment;
+import net.developz.classroom.backend.academic.enrollment.domain.model.Enrollment;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -19,9 +19,12 @@ import net.developz.classroom.backend.iam.auth.infrastructure.security.jwt.JwtSe
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -62,15 +65,15 @@ class EnrollmentControllerTest {
     void shouldEnrollStudent() throws Exception {
         EnrollStudentRequest request = new EnrollStudentRequest("student-123", "course-456");
         Enrollment enrollment = new Enrollment();
-        EnrollmentDTO dto = new EnrollmentDTO("enroll-1", "student-123", "course-456", null);
+        EnrollmentDTO dto = new EnrollmentDTO("enroll-1", "John Doe", "CS101", "Computer Science", null);
 
-        when(mapper.toEntity(any(EnrollStudentRequest.class))).thenReturn(enrollment);
+        when(mapper.toModel(any(EnrollStudentRequest.class))).thenReturn(enrollment);
         when(enrollStudentUseCase.execute(any(Enrollment.class))).thenReturn(enrollment);
-        when(mapper.toDTO(any(Enrollment.class))).thenReturn(dto);
+        when(mapper.toDto(any(Enrollment.class))).thenReturn(dto);
 
         mockMvc.perform(post("/api/v1/enrollments")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value("enroll-1"));
     }
@@ -85,9 +88,10 @@ class EnrollmentControllerTest {
 
     @Test
     void shouldGetCourseRoster() throws Exception {
-        when(getCourseRosterUseCase.execute("course-1")).thenReturn(List.of(new Enrollment()));
+        when(getCourseRosterUseCase.execute(eq("course-1"), any(Pageable.class)))
+                .thenReturn(new PageImpl<>(List.of(new Enrollment())));
 
-        mockMvc.perform(get("/api/v1/enrollments/course/course-1"))
+        mockMvc.perform(get("/api/v1/enrollments/roster/course-1"))
                 .andExpect(status().isOk());
     }
 }

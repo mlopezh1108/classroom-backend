@@ -1,13 +1,10 @@
 package net.developz.classroom.backend.academic.assessment.infrastructure.api;
 
 import lombok.RequiredArgsConstructor;
-import net.developz.classroom.backend.academic.assessment.application.dto.ExamAttemptDTO;
-import net.developz.classroom.backend.academic.assessment.application.dto.GradeAssessmentRequest;
-import net.developz.classroom.backend.academic.assessment.application.dto.StartExamAttemptRequest;
-import net.developz.classroom.backend.academic.assessment.application.dto.SubmitAnswerRequest;
+import net.developz.classroom.backend.academic.assessment.application.dto.*;
 import net.developz.classroom.backend.academic.assessment.application.usecase.*;
 import net.developz.classroom.backend.academic.assessment.infrastructure.mapper.AssessmentMapper;
-import net.developz.classroom.backend.academic.assessment.infrastructure.persistence.entity.ExamAttempt;
+import net.developz.classroom.backend.academic.assessment.domain.model.ExamAttempt;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,9 +25,9 @@ public class AssessmentController {
 
     @PostMapping("/attempts")
     public ResponseEntity<ExamAttemptDTO> startAttempt(@RequestBody StartExamAttemptRequest request) {
-        ExamAttempt entity = mapper.toEntity(request);
-        ExamAttempt saved = startExamAttemptUseCase.execute(entity);
-        return new ResponseEntity<>(mapper.toDTO(saved), HttpStatus.CREATED);
+        ExamAttempt model = mapper.toModel(request);
+        ExamAttempt saved = startExamAttemptUseCase.execute(model);
+        return new ResponseEntity<>(mapper.toDto(saved), HttpStatus.CREATED);
     }
 
     @PostMapping("/attempts/{attemptId}/answers")
@@ -38,19 +35,19 @@ public class AssessmentController {
             @PathVariable String attemptId,
             @RequestBody SubmitAnswerRequest request) {
         ExamAttempt attempt = submitExamAnswerUseCase.execute(attemptId, request);
-        return ResponseEntity.ok(mapper.toDTO(attempt));
+        return ResponseEntity.ok(mapper.toDto(attempt));
     }
 
     @PostMapping("/attempts/{attemptId}/finish")
     public ResponseEntity<ExamAttemptDTO> finishAttempt(@PathVariable String attemptId) {
         ExamAttempt attempt = finishExamAttemptUseCase.execute(attemptId);
-        return ResponseEntity.ok(mapper.toDTO(attempt));
+        return ResponseEntity.ok(mapper.toDto(attempt));
     }
 
     @PostMapping("/attempts/{attemptId}/auto-grade")
     public ResponseEntity<ExamAttemptDTO> autoGradeAttempt(@PathVariable String attemptId) {
         ExamAttempt attempt = autoGradeAttemptUseCase.execute(attemptId);
-        return ResponseEntity.ok(mapper.toDTO(attempt));
+        return ResponseEntity.ok(mapper.toDto(attempt));
     }
 
     @PostMapping("/attempts/{attemptId}/review")
@@ -58,6 +55,6 @@ public class AssessmentController {
             @PathVariable String attemptId,
             @RequestBody List<GradeAssessmentRequest> requests) {
         ExamAttempt attempt = reviewAssessmentUseCase.execute(attemptId, requests);
-        return ResponseEntity.ok(mapper.toDTO(attempt));
+        return ResponseEntity.ok(mapper.toDto(attempt));
     }
 }

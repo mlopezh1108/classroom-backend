@@ -1,6 +1,8 @@
 package net.developz.classroom.backend.iam.user.infrastructure.persistence.adapter;
 
-import net.developz.classroom.backend.iam.user.infrastructure.persistence.entity.Person;
+import net.developz.classroom.backend.iam.user.domain.model.Person;
+import net.developz.classroom.backend.iam.user.infrastructure.mapper.UserMapperImpl;
+import net.developz.classroom.backend.iam.user.infrastructure.persistence.entity.PersonEntity;
 import net.developz.classroom.backend.iam.user.infrastructure.persistence.repository.PersonRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Import(PersonRepositoryAdapter.class)
+@Import({ PersonRepositoryAdapter.class, UserMapperImpl.class })
 class PersonRepositoryAdapterTest {
 
     @Autowired
@@ -25,7 +27,7 @@ class PersonRepositoryAdapterTest {
 
     @Test
     void shouldSaveAndFindByEmail() {
-        Person person = new Person();
+        PersonEntity person = new PersonEntity();
         person.setEmail("test@email.com");
         person.setPassword("pass");
         person.setFirstName("Test");

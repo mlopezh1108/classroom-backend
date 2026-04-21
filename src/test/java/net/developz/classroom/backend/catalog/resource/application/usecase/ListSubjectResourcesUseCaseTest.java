@@ -1,7 +1,7 @@
 package net.developz.classroom.backend.catalog.resource.application.usecase;
 
 import net.developz.classroom.backend.catalog.resource.application.port.ResourceRepositoryPort;
-import net.developz.classroom.backend.catalog.resource.infrastructure.persistence.entity.Resource;
+import net.developz.classroom.backend.catalog.resource.domain.model.Resource;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

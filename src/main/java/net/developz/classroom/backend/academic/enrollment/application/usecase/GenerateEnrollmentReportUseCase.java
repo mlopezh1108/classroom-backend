@@ -3,7 +3,7 @@ package net.developz.classroom.backend.academic.enrollment.application.usecase;
 import lombok.RequiredArgsConstructor;
 import net.developz.classroom.backend.academic.enrollment.application.dto.EnrollmentReportResponse;
 import net.developz.classroom.backend.academic.enrollment.application.port.EnrollmentRepositoryPort;
-import net.developz.classroom.backend.academic.enrollment.infrastructure.persistence.entity.Enrollment;
+import net.developz.classroom.backend.academic.enrollment.domain.model.Enrollment;
 import net.developz.classroom.backend.shared.application.annotation.UseCase;
 
 import java.util.List;

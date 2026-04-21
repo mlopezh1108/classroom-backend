@@ -1,8 +1,10 @@
 package net.developz.classroom.backend.academic.assessment.infrastructure.persistence.adapter;
 
-import net.developz.classroom.backend.academic.assessment.infrastructure.persistence.entity.ExamAttempt;
-import net.developz.classroom.backend.academic.enrollment.infrastructure.persistence.entity.Enrollment;
-import net.developz.classroom.backend.academic.assessment.infrastructure.persistence.entity.enums.AttemptStatus;
+import net.developz.classroom.backend.academic.assessment.domain.model.ExamAttempt;
+import net.developz.classroom.backend.academic.assessment.infrastructure.mapper.AssessmentMapperImpl;
+import net.developz.classroom.backend.academic.assessment.infrastructure.persistence.entity.ExamAttemptEntity;
+import net.developz.classroom.backend.academic.enrollment.infrastructure.persistence.entity.EnrollmentEntity;
+import net.developz.classroom.backend.academic.assessment.domain.model.enums.AttemptStatus;
 import net.developz.classroom.backend.academic.assessment.infrastructure.persistence.repository.ExamAttemptRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Import(ExamAttemptRepositoryAdapter.class)
+@Import({ ExamAttemptRepositoryAdapter.class, AssessmentMapperImpl.class })
 class ExamAttemptRepositoryAdapterTest {
 
     @Autowired
@@ -27,13 +29,15 @@ class ExamAttemptRepositoryAdapterTest {
 
     @Test
     void shouldSaveAndFindById() {
-        Enrollment enrollment = new Enrollment();
+        EnrollmentEntity enrollment = new EnrollmentEntity();
         enrollment.setId("enroll-1");
-        
-        ExamAttempt attempt = new ExamAttempt();
+        // No persist needed if it's just the ID for the attempt,
+        // but it's better to persist if there are FK constraints
+
+        ExamAttemptEntity attempt = new ExamAttemptEntity();
         attempt.setStatus(AttemptStatus.STARTED);
         attempt.setEnrollmentId(enrollment.getId());
-        ExamAttempt saved = repository.save(attempt);
+        ExamAttemptEntity saved = repository.save(attempt);
 
         Optional<ExamAttempt> result = adapter.findById(saved.getId());
 

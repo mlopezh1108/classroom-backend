@@ -4,7 +4,8 @@ import java.math.BigDecimal;
 
 public record EnrollmentDTO(
     String id,
-    String studentId,
-    String courseId,
+    String studentName,
+    String courseCode,
+    String subjectName,
     BigDecimal grade
 ) {}

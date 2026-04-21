@@ -2,7 +2,7 @@ package net.developz.classroom.backend.catalog.subject.application.usecase;
 
 import lombok.RequiredArgsConstructor;
 import net.developz.classroom.backend.catalog.subject.application.port.SubjectRepositoryPort;
-import net.developz.classroom.backend.catalog.subject.infrastructure.persistence.entity.Subject;
+import net.developz.classroom.backend.catalog.subject.domain.model.Subject;
 import net.developz.classroom.backend.shared.application.annotation.UseCase;
 
 @UseCase

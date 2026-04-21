@@ -5,11 +5,17 @@ import org.mapstruct.MappingTarget;
 import net.developz.classroom.backend.catalog.group.application.dto.GroupResponse;
 import net.developz.classroom.backend.catalog.group.application.dto.CreateGroupRequest;
 import net.developz.classroom.backend.catalog.group.application.dto.UpdateGroupRequest;
-import net.developz.classroom.backend.catalog.group.infrastructure.persistence.entity.Group;
+import net.developz.classroom.backend.catalog.group.domain.model.Group;
+import net.developz.classroom.backend.catalog.group.infrastructure.persistence.entity.GroupEntity;
 
 @Mapper(componentModel = "spring")
 public interface GroupMapper {
-    GroupResponse toDto(Group group);
-    Group toEntity(CreateGroupRequest request);
-    void updateEntityFromRequest(UpdateGroupRequest request, @MappingTarget Group group);
+    // Entity <-> Domain
+    Group toModel(GroupEntity entity);
+    GroupEntity toEntity(Group model);
+
+    // Domain <-> DTO
+    GroupResponse toDto(Group model);
+    Group toModel(CreateGroupRequest request);
+    void updateModelFromRequest(UpdateGroupRequest request, @MappingTarget Group model);
 }

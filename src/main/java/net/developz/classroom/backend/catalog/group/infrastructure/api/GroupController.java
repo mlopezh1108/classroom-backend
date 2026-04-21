@@ -6,14 +6,13 @@ import net.developz.classroom.backend.catalog.group.application.dto.GroupRespons
 import net.developz.classroom.backend.catalog.group.application.dto.UpdateGroupRequest;
 import net.developz.classroom.backend.catalog.group.application.usecase.*;
 import net.developz.classroom.backend.catalog.group.infrastructure.mapper.GroupMapper;
-import net.developz.classroom.backend.catalog.group.infrastructure.persistence.entity.Group;
+import net.developz.classroom.backend.catalog.group.domain.model.Group;
+import net.developz.classroom.backend.shared.application.dto.PageResponse;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/catalog/groups")
@@ -29,11 +28,9 @@ public class GroupController {
 
     @GetMapping
     @PreAuthorize("hasAuthority('GROUP_VIEW')")
-    public ResponseEntity<List<GroupResponse>> getAllGroups() {
-        List<GroupResponse> groups = findAllGroupsUseCase.execute().stream()
-                .map(groupMapper::toDto)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(groups);
+    public ResponseEntity<PageResponse<GroupResponse>> getAllGroups(Pageable pageable) {
+        return ResponseEntity.ok(PageResponse.from(
+                findAllGroupsUseCase.execute(pageable).map(groupMapper::toDto)));
     }
 
     @GetMapping("/{id}")
@@ -46,7 +43,7 @@ public class GroupController {
     @PostMapping
     @PreAuthorize("hasAuthority('GROUP_CREATE')")
     public ResponseEntity<GroupResponse> createGroup(@RequestBody CreateGroupRequest request) {
-        Group group = groupMapper.toEntity(request);
+        Group group = groupMapper.toModel(request);
         Group savedGroup = createGroupUseCase.execute(group);
         return ResponseEntity.status(HttpStatus.CREATED).body(groupMapper.toDto(savedGroup));
     }
@@ -55,7 +52,7 @@ public class GroupController {
     @PreAuthorize("hasAuthority('GROUP_UPDATE')")
     public ResponseEntity<GroupResponse> updateGroup(@PathVariable String id, @RequestBody UpdateGroupRequest request) {
         Group existingGroup = findGroupByIdUseCase.execute(id);
-        groupMapper.updateEntityFromRequest(request, existingGroup);
+        groupMapper.updateModelFromRequest(request, existingGroup);
         Group updatedGroup = updateGroupUseCase.execute(existingGroup);
         return ResponseEntity.ok(groupMapper.toDto(updatedGroup));
     }

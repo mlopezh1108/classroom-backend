@@ -3,8 +3,8 @@ package net.developz.classroom.backend.academic.assessment.application.usecase;
 import lombok.RequiredArgsConstructor;
 import net.developz.classroom.backend.academic.assessment.application.dto.GradeAssessmentRequest;
 import net.developz.classroom.backend.academic.assessment.application.port.ExamAttemptRepositoryPort;
-import net.developz.classroom.backend.academic.assessment.infrastructure.persistence.entity.ExamAttempt;
-import net.developz.classroom.backend.academic.assessment.infrastructure.persistence.entity.AttemptAnswer;
+import net.developz.classroom.backend.academic.assessment.domain.model.ExamAttempt;
+import net.developz.classroom.backend.academic.assessment.domain.model.AttemptAnswer;
 import net.developz.classroom.backend.shared.application.annotation.UseCase;
 import net.developz.classroom.backend.shared.application.exception.EntityNotFoundException;
 
@@ -17,7 +17,8 @@ public class ReviewAssessmentUseCase {
 
     public ExamAttempt execute(String attemptId, List<GradeAssessmentRequest> gradingRequests) {
         ExamAttempt attempt = examAttemptRepositoryPort.findById(attemptId)
-                .orElseThrow(() -> new EntityNotFoundException("ExamAttempt not found", ReviewAssessmentUseCase.class, ExamAttempt.class));
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Attempt not found with id: " + attemptId, this.getClass(), ExamAttempt.class));
 
         for (GradeAssessmentRequest request : gradingRequests) {
             for (AttemptAnswer answer : attempt.getAnswers()) {

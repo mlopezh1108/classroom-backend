@@ -1,7 +1,9 @@
 package net.developz.classroom.backend.catalog.subject.infrastructure.persistence.adapter;
 
 import net.developz.classroom.backend.catalog.subject.application.port.SubjectRepositoryPort;
-import net.developz.classroom.backend.catalog.subject.infrastructure.persistence.entity.Subject;
+import net.developz.classroom.backend.catalog.subject.domain.model.Subject;
+import net.developz.classroom.backend.catalog.subject.infrastructure.mapper.SubjectMapper;
+import net.developz.classroom.backend.catalog.subject.infrastructure.persistence.entity.SubjectEntity;
 import net.developz.classroom.backend.catalog.subject.infrastructure.persistence.repository.SubjectRepository;
 import net.developz.classroom.backend.shared.infrastructure.persistence.adapter.JpaRepositoryAdapter;
 import org.springframework.stereotype.Component;
@@ -12,12 +14,23 @@ import org.springframework.stereotype.Component;
  * and implements domain-specific queries.
  */
 @Component
-public class SubjectRepositoryAdapter
-        extends JpaRepositoryAdapter<Subject, String, SubjectRepository>
-        implements SubjectRepositoryPort {
+public class SubjectRepositoryAdapter extends JpaRepositoryAdapter<Subject, SubjectEntity, String, SubjectRepository> implements SubjectRepositoryPort {
 
-    public SubjectRepositoryAdapter(SubjectRepository repository) {
+    private final SubjectMapper subjectMapper;
+
+    public SubjectRepositoryAdapter(SubjectRepository repository, SubjectMapper subjectMapper) {
         super(repository);
+        this.subjectMapper = subjectMapper;
+    }
+
+    @Override
+    protected Subject toModel(SubjectEntity entity) {
+        return subjectMapper.toModel(entity);
+    }
+
+    @Override
+    protected SubjectEntity toEntity(Subject model) {
+        return subjectMapper.toEntity(model);
     }
 
     @Override
@@ -25,5 +38,3 @@ public class SubjectRepositoryAdapter
         return repository.existsBySubjectCode(subjectCode);
     }
 }
-
-

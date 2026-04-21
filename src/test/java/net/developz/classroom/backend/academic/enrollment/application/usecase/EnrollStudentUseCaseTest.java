@@ -2,7 +2,7 @@ package net.developz.classroom.backend.academic.enrollment.application.usecase;
 
 import net.developz.classroom.backend.academic.enrollment.application.port.EnrollmentEventPublisherPort;
 import net.developz.classroom.backend.academic.enrollment.application.port.EnrollmentRepositoryPort;
-import net.developz.classroom.backend.academic.enrollment.infrastructure.persistence.entity.Enrollment;
+import net.developz.classroom.backend.academic.enrollment.domain.model.Enrollment;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

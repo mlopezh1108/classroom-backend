@@ -3,7 +3,7 @@ package net.developz.classroom.backend.catalog.exam.application.usecase;
 import lombok.RequiredArgsConstructor;
 import net.developz.classroom.backend.catalog.exam.application.dto.CreateExamRequest;
 import net.developz.classroom.backend.catalog.exam.application.port.ExamRepositoryPort;
-import net.developz.classroom.backend.catalog.exam.infrastructure.persistence.entity.Exam;
+import net.developz.classroom.backend.catalog.exam.domain.model.Exam;
 import net.developz.classroom.backend.catalog.subject.application.port.SubjectRepositoryPort;
 import net.developz.classroom.backend.shared.application.annotation.UseCase;
 import net.developz.classroom.backend.shared.application.exception.EntityNotFoundException;

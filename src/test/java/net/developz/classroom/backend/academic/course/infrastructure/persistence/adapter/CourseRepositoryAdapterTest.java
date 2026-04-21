@@ -1,6 +1,8 @@
 package net.developz.classroom.backend.academic.course.infrastructure.persistence.adapter;
 
-import net.developz.classroom.backend.academic.course.infrastructure.persistence.entity.Course;
+import net.developz.classroom.backend.academic.course.domain.model.Course;
+import net.developz.classroom.backend.academic.course.infrastructure.mapper.CourseMapperImpl;
+import net.developz.classroom.backend.academic.course.infrastructure.persistence.entity.CourseEntity;
 import net.developz.classroom.backend.academic.course.infrastructure.persistence.repository.CourseRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Import(CourseRepositoryAdapter.class)
+@Import({ CourseRepositoryAdapter.class, CourseMapperImpl.class })
 class CourseRepositoryAdapterTest {
 
     @Autowired
@@ -25,7 +27,7 @@ class CourseRepositoryAdapterTest {
 
     @Test
     void shouldSaveAndFindByTeacherId() {
-        Course course = new Course();
+        CourseEntity course = new CourseEntity();
         course.setCourseCode("MATH101");
         course.setTeacherId("teacher-1");
         course.setSubjectId("sub-1");

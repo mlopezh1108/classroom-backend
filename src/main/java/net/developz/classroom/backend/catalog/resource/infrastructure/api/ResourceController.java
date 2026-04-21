@@ -4,18 +4,15 @@ import lombok.RequiredArgsConstructor;
 import net.developz.classroom.backend.catalog.resource.application.dto.CreateResourceRequest;
 import net.developz.classroom.backend.catalog.resource.application.dto.ResourceDTO;
 import net.developz.classroom.backend.catalog.resource.application.dto.UpdateResourceRequest;
-import net.developz.classroom.backend.catalog.resource.application.usecase.CreateResourceUseCase;
-import net.developz.classroom.backend.catalog.resource.application.usecase.DeleteResourceUseCase;
-import net.developz.classroom.backend.catalog.resource.application.usecase.ListSubjectResourcesUseCase;
-import net.developz.classroom.backend.catalog.resource.application.usecase.UpdateResourceUseCase;
+import net.developz.classroom.backend.catalog.resource.application.usecase.*;
 import net.developz.classroom.backend.catalog.resource.infrastructure.mapper.ResourceMapper;
-import net.developz.classroom.backend.catalog.resource.infrastructure.persistence.entity.Resource;
+import net.developz.classroom.backend.catalog.resource.domain.model.Resource;
+import net.developz.classroom.backend.shared.application.dto.PageResponse;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/resources")
@@ -31,7 +28,7 @@ public class ResourceController {
     @PostMapping
     public ResponseEntity<ResourceDTO> createResource(@RequestBody CreateResourceRequest request) {
         Resource saved = createResourceUseCase.execute(request);
-        return new ResponseEntity<>(mapper.toDTO(saved), HttpStatus.CREATED);
+        return new ResponseEntity<>(mapper.toDto(saved), HttpStatus.CREATED);
     }
 
     @PutMapping("/{resourceId}")
@@ -39,7 +36,7 @@ public class ResourceController {
             @PathVariable String resourceId,
             @RequestBody UpdateResourceRequest request) {
         Resource updated = updateResourceUseCase.execute(resourceId, request);
-        return ResponseEntity.ok(mapper.toDTO(updated));
+        return ResponseEntity.ok(mapper.toDto(updated));
     }
 
     @DeleteMapping("/{resourceId}")
@@ -49,11 +46,12 @@ public class ResourceController {
     }
 
     @GetMapping("/subject/{subjectId}")
-    public ResponseEntity<List<ResourceDTO>> listSubjectResources(@PathVariable String subjectId) {
-        List<Resource> resources = listSubjectResourcesUseCase.execute(subjectId);
-        List<ResourceDTO> dtoList = resources.stream()
-                .map(mapper::toDTO)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(dtoList);
+    @PreAuthorize("hasAuthority('RESOURCE_VIEW')")
+    public ResponseEntity<PageResponse<ResourceDTO>> listSubjectResources(
+            @PathVariable String subjectId,
+            Pageable pageable) {
+        return ResponseEntity.ok(PageResponse.from(
+                listSubjectResourcesUseCase.execute(subjectId, pageable).map(mapper::toDto)
+        ));
     }
 }

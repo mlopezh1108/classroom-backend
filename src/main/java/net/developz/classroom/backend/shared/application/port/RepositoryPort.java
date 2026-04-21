@@ -1,5 +1,7 @@
 package net.developz.classroom.backend.shared.application.port;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,18 +11,20 @@ import java.util.Optional;
  * Defines the base CRUD contract expected by the application layer,
  * without coupling to any persistence framework.
  *
- * @param <E>  Domain entity type
- * @param <ID> Entity identifier type
+ * @param <M>  Domain model type
+ * @param <ID> Model identifier type
  */
-public interface RepositoryPort<E, ID> {
+public interface RepositoryPort<M, ID> {
 
-    List<E> findAll();
+    List<M> findAll();
 
-    Optional<E> findById(ID id);
+    Page<M> findAll(Pageable pageable);
+
+    Optional<M> findById(ID id);
 
     boolean existsById(ID id);
 
-    E save(E entity);
+    M save(M model);
 
     void deleteById(ID id);
 }

@@ -9,7 +9,7 @@ import net.developz.classroom.backend.catalog.exam.application.usecase.CreateExa
 import net.developz.classroom.backend.catalog.exam.application.usecase.DeleteQuestionUseCase;
 import net.developz.classroom.backend.catalog.exam.application.usecase.GetExamDetailsUseCase;
 import net.developz.classroom.backend.catalog.exam.infrastructure.mapper.ExamMapper;
-import net.developz.classroom.backend.catalog.exam.infrastructure.persistence.entity.Exam;
+import net.developz.classroom.backend.catalog.exam.domain.model.Exam;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +28,7 @@ public class ExamController {
     @PostMapping
     public ResponseEntity<ExamDTO> createExam(@RequestBody CreateExamRequest request) {
         Exam saved = createExamUseCase.execute(request);
-        return new ResponseEntity<>(mapper.toDTO(saved), HttpStatus.CREATED);
+        return new ResponseEntity<>(mapper.toDto(saved), HttpStatus.CREATED);
     }
 
     /**
@@ -48,7 +48,7 @@ public class ExamController {
     @PostMapping("/questions")
     public ResponseEntity<ExamDTO> addQuestion(@RequestBody CreateQuestionRequest request) {
         Exam saved = addQuestionUseCase.execute(request);
-        return new ResponseEntity<>(mapper.toDTO(saved), HttpStatus.CREATED);
+        return new ResponseEntity<>(mapper.toDto(saved), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/questions/{questionId}")
@@ -60,6 +60,6 @@ public class ExamController {
     @GetMapping("/{examId}")
     public ResponseEntity<ExamDTO> getExamDetails(@PathVariable String examId) {
         Exam exam = getExamDetailsUseCase.execute(examId);
-        return ResponseEntity.ok(mapper.toDTO(exam));
+        return ResponseEntity.ok(mapper.toDto(exam));
     }
 }

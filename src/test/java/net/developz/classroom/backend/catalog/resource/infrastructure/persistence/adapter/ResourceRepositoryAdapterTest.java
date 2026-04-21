@@ -1,7 +1,9 @@
 package net.developz.classroom.backend.catalog.resource.infrastructure.persistence.adapter;
 
-import net.developz.classroom.backend.catalog.resource.infrastructure.persistence.entity.Resource;
-import net.developz.classroom.backend.catalog.subject.infrastructure.persistence.entity.Subject;
+import net.developz.classroom.backend.catalog.resource.domain.model.Resource;
+import net.developz.classroom.backend.catalog.resource.infrastructure.mapper.ResourceMapperImpl;
+import net.developz.classroom.backend.catalog.resource.infrastructure.persistence.entity.ResourceEntity;
+import net.developz.classroom.backend.catalog.subject.infrastructure.persistence.entity.SubjectEntity;
 import net.developz.classroom.backend.catalog.resource.infrastructure.persistence.entity.constant.ResourceType;
 import net.developz.classroom.backend.catalog.resource.infrastructure.persistence.repository.ResourceRepository;
 import org.junit.jupiter.api.Test;
@@ -17,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Import(ResourceRepositoryAdapter.class)
+@Import({ ResourceRepositoryAdapter.class, ResourceMapperImpl.class })
 class ResourceRepositoryAdapterTest {
 
     @Autowired
@@ -31,11 +33,13 @@ class ResourceRepositoryAdapterTest {
 
     @Test
     void shouldSaveAndFindBySubjectId() {
-        Subject subject = new Subject();
+        SubjectEntity subject = new SubjectEntity();
         subject.setId("sub-1");
+        subject.setSubjectName("Test Subject");
+        subject.setSubjectCode("SUB-1");
         entityManager.persist(subject);
 
-        Resource resource = new Resource();
+        ResourceEntity resource = new ResourceEntity();
         resource.setTitle("Test Resource");
         resource.setResourceType(ResourceType.PDF);
         resource.setContentUrl("test-url");

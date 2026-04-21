@@ -1,8 +1,8 @@
 package net.developz.classroom.backend.academic.assessment.application.usecase;
 
 import net.developz.classroom.backend.academic.assessment.application.port.ExamAttemptRepositoryPort;
-import net.developz.classroom.backend.academic.assessment.infrastructure.persistence.entity.ExamAttempt;
-import net.developz.classroom.backend.academic.assessment.infrastructure.persistence.entity.enums.AttemptStatus;
+import net.developz.classroom.backend.academic.assessment.domain.model.ExamAttempt;
+import net.developz.classroom.backend.academic.assessment.domain.model.enums.AttemptStatus;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

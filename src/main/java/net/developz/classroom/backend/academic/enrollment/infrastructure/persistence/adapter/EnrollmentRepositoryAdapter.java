@@ -1,28 +1,68 @@
 package net.developz.classroom.backend.academic.enrollment.infrastructure.persistence.adapter;
 
 import net.developz.classroom.backend.academic.enrollment.application.port.EnrollmentRepositoryPort;
-import net.developz.classroom.backend.academic.enrollment.infrastructure.persistence.entity.Enrollment;
+import net.developz.classroom.backend.academic.enrollment.domain.model.Enrollment;
+import net.developz.classroom.backend.academic.enrollment.infrastructure.mapper.EnrollmentMapper;
+import net.developz.classroom.backend.academic.enrollment.infrastructure.persistence.entity.EnrollmentEntity;
 import net.developz.classroom.backend.academic.enrollment.infrastructure.persistence.repository.EnrollmentRepository;
 import net.developz.classroom.backend.shared.infrastructure.persistence.adapter.JpaRepositoryAdapter;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
-public class EnrollmentRepositoryAdapter extends JpaRepositoryAdapter<Enrollment, String, EnrollmentRepository> implements EnrollmentRepositoryPort {
+public class EnrollmentRepositoryAdapter
+        extends JpaRepositoryAdapter<Enrollment, EnrollmentEntity, String, EnrollmentRepository>
+        implements EnrollmentRepositoryPort {
 
-    public EnrollmentRepositoryAdapter(EnrollmentRepository repository) {
+    private final EnrollmentMapper enrollmentMapper;
+
+    public EnrollmentRepositoryAdapter(EnrollmentRepository repository, EnrollmentMapper enrollmentMapper) {
         super(repository);
+        this.enrollmentMapper = enrollmentMapper;
+    }
+
+    @Override
+    protected Enrollment toModel(EnrollmentEntity entity) {
+        return enrollmentMapper.toModel(entity);
+    }
+
+    @Override
+    protected EnrollmentEntity toEntity(Enrollment model) {
+        return enrollmentMapper.toEntity(model);
+    }
+
+    @Override
+    public java.util.Optional<Enrollment> findById(String id) {
+        return repository.findDetailedById(id).map(enrollmentMapper::toModel);
+    }
+
+    @Override
+    public List<Enrollment> findAll() {
+        return repository.findAllDetailed().stream()
+                .map(enrollmentMapper::toModel)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<Enrollment> findAll(Pageable pageable) {
+        return repository.findAllDetailed(pageable)
+                .map(enrollmentMapper::toModel);
+    }
+
+    @Override
+    public Page<Enrollment> findByCourseId(String courseId, Pageable pageable) {
+        return repository.findDetailedByCourseId(courseId, pageable)
+                .map(enrollmentMapper::toModel);
     }
 
     @Override
     public List<Enrollment> findByCourseId(String courseId) {
-        return repository.findByCourseId(courseId);
-    }
-
-    @Override
-    public List<Enrollment> findByStudentId(String studentId) {
-        return repository.findByStudentId(studentId);
+        return repository.findDetailedByCourseId(courseId).stream()
+                .map(enrollmentMapper::toModel)
+                .collect(Collectors.toList());
     }
 }

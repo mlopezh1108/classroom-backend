@@ -1,8 +1,8 @@
 package net.developz.classroom.backend.academic.advisory.application.usecase;
 
 import net.developz.classroom.backend.academic.advisory.application.port.AdvisoryRepositoryPort;
-import net.developz.classroom.backend.academic.advisory.infrastructure.persistence.entity.Advisory;
-import net.developz.classroom.backend.academic.advisory.infrastructure.persistence.entity.enums.AdvisoryStatus;
+import net.developz.classroom.backend.academic.advisory.domain.model.Advisory;
+import net.developz.classroom.backend.academic.advisory.domain.model.enums.AdvisoryStatus;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

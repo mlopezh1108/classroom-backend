@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 
-import java.net.URI;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 class GlobalExceptionHandlerTest {
@@ -16,10 +14,11 @@ class GlobalExceptionHandlerTest {
 
     @Test
     void shouldHandleEntityNotFoundException() {
-        EntityNotFoundException ex = new EntityNotFoundException("Not found", GlobalExceptionHandlerTest.class, Object.class);
-        
+        EntityNotFoundException ex = new EntityNotFoundException("Not found", GlobalExceptionHandlerTest.class,
+                Object.class);
+
         ProblemDetail result = handler.handleEntityNotFoundException(ex);
-        
+
         assertThat(result.getStatus()).isEqualTo(HttpStatus.NOT_FOUND.value());
         assertThat(result.getDetail()).isEqualTo("Not found");
         assertThat(result.getTitle()).isEqualTo("Entity Not Found");
@@ -29,10 +28,11 @@ class GlobalExceptionHandlerTest {
 
     @Test
     void shouldHandleEntityAlreadyExistsException() {
-        EntityAlreadyExistsException ex = new EntityAlreadyExistsException("Already exists", GlobalExceptionHandlerTest.class, Object.class);
-        
+        EntityAlreadyExistsException ex = new EntityAlreadyExistsException("Already exists",
+                GlobalExceptionHandlerTest.class, Object.class);
+
         ProblemDetail result = handler.handleEntityAlreadyExistsException(ex);
-        
+
         assertThat(result.getStatus()).isEqualTo(HttpStatus.CONFLICT.value());
         assertThat(result.getDetail()).isEqualTo("Already exists");
         assertThat(result.getTitle()).isEqualTo("Entity Already Exists");

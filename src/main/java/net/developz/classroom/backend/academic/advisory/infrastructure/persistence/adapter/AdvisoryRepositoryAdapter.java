@@ -1,23 +1,50 @@
 package net.developz.classroom.backend.academic.advisory.infrastructure.persistence.adapter;
 
 import net.developz.classroom.backend.academic.advisory.application.port.AdvisoryRepositoryPort;
-import net.developz.classroom.backend.academic.advisory.infrastructure.persistence.entity.Advisory;
+import net.developz.classroom.backend.academic.advisory.domain.model.Advisory;
+import net.developz.classroom.backend.academic.advisory.infrastructure.mapper.AdvisoryMapper;
+import net.developz.classroom.backend.academic.advisory.infrastructure.persistence.entity.AdvisoryEntity;
 import net.developz.classroom.backend.academic.advisory.infrastructure.persistence.repository.AdvisoryRepository;
 import net.developz.classroom.backend.shared.infrastructure.persistence.adapter.JpaRepositoryAdapter;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
-public class AdvisoryRepositoryAdapter extends JpaRepositoryAdapter<Advisory, String, AdvisoryRepository> implements AdvisoryRepositoryPort {
+public class AdvisoryRepositoryAdapter
+        extends JpaRepositoryAdapter<Advisory, AdvisoryEntity, String, AdvisoryRepository>
+        implements AdvisoryRepositoryPort {
 
-    public AdvisoryRepositoryAdapter(AdvisoryRepository repository) {
+    private final AdvisoryMapper advisoryMapper;
+
+    public AdvisoryRepositoryAdapter(AdvisoryRepository repository, AdvisoryMapper advisoryMapper) {
         super(repository);
+        this.advisoryMapper = advisoryMapper;
+    }
+
+    @Override
+    protected Advisory toModel(AdvisoryEntity entity) {
+        return advisoryMapper.toModel(entity);
+    }
+
+    @Override
+    protected AdvisoryEntity toEntity(Advisory model) {
+        return advisoryMapper.toEntity(model);
     }
 
     @Override
     public List<Advisory> findByEnrollmentId(String enrollmentId) {
-        return repository.findByEnrollmentId(enrollmentId);
+        return repository.findByEnrollmentId(enrollmentId).stream()
+                .map(advisoryMapper::toModel)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<Advisory> findByEnrollmentId(String enrollmentId, Pageable pageable) {
+        return repository.findByEnrollmentId(enrollmentId, pageable)
+                .map(advisoryMapper::toModel);
     }
 }

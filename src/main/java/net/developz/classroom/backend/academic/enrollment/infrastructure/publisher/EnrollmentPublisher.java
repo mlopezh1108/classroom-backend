@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.developz.classroom.backend.academic.enrollment.application.port.EnrollmentEventPublisherPort;
 import net.developz.classroom.backend.academic.enrollment.domain.event.EnrollmentCreatedEvent;
-import net.developz.classroom.backend.academic.enrollment.infrastructure.persistence.entity.Enrollment;
+import net.developz.classroom.backend.academic.enrollment.domain.model.Enrollment;
 
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;

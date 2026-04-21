@@ -5,11 +5,17 @@ import org.mapstruct.MappingTarget;
 import net.developz.classroom.backend.catalog.period.application.dto.PeriodResponse;
 import net.developz.classroom.backend.catalog.period.application.dto.CreatePeriodRequest;
 import net.developz.classroom.backend.catalog.period.application.dto.UpdatePeriodRequest;
-import net.developz.classroom.backend.catalog.period.infrastructure.persistence.entity.Period;
+import net.developz.classroom.backend.catalog.period.domain.model.Period;
+import net.developz.classroom.backend.catalog.period.infrastructure.persistence.entity.PeriodEntity;
 
 @Mapper(componentModel = "spring")
 public interface PeriodMapper {
-    PeriodResponse toDto(Period period);
-    Period toEntity(CreatePeriodRequest request);
-    void updateEntityFromRequest(UpdatePeriodRequest request, @MappingTarget Period period);
+    // Entity <-> Domain
+    Period toModel(PeriodEntity entity);
+    PeriodEntity toEntity(Period model);
+
+    // Domain <-> DTO
+    PeriodResponse toDto(Period model);
+    Period toModel(CreatePeriodRequest request);
+    void updateModelFromRequest(UpdatePeriodRequest request, @MappingTarget Period model);
 }

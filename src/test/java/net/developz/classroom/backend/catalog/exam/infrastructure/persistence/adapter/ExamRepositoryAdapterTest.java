@@ -1,7 +1,9 @@
 package net.developz.classroom.backend.catalog.exam.infrastructure.persistence.adapter;
 
-import net.developz.classroom.backend.catalog.exam.infrastructure.persistence.entity.Exam;
-import net.developz.classroom.backend.catalog.subject.infrastructure.persistence.entity.Subject;
+import net.developz.classroom.backend.catalog.exam.domain.model.Exam;
+import net.developz.classroom.backend.catalog.exam.infrastructure.mapper.ExamMapperImpl;
+import net.developz.classroom.backend.catalog.exam.infrastructure.persistence.entity.ExamEntity;
+import net.developz.classroom.backend.catalog.subject.infrastructure.persistence.entity.SubjectEntity;
 import net.developz.classroom.backend.catalog.exam.infrastructure.persistence.repository.ExamRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Import(ExamRepositoryAdapter.class)
+@Import({ ExamRepositoryAdapter.class, ExamMapperImpl.class })
 class ExamRepositoryAdapterTest {
 
     @Autowired
@@ -30,11 +32,13 @@ class ExamRepositoryAdapterTest {
 
     @Test
     void shouldSaveAndFindBySubjectId() {
-        Subject subject = new Subject();
+        SubjectEntity subject = new SubjectEntity();
         subject.setId("sub-1");
+        subject.setSubjectName("Test Subject");
+        subject.setSubjectCode("SUB-1");
         entityManager.persist(subject);
 
-        Exam exam = new Exam();
+        ExamEntity exam = new ExamEntity();
         exam.setTitle("Test Exam");
         exam.setSubjectId(subject.getId());
         repository.save(exam);
