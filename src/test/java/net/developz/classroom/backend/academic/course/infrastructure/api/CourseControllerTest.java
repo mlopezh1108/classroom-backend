@@ -19,10 +19,11 @@ import net.developz.classroom.backend.iam.auth.infrastructure.security.jwt.JwtSe
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+import net.developz.classroom.backend.shared.domain.pagination.PaginatedResult;
+import net.developz.classroom.backend.shared.domain.pagination.PaginationCriteria;
 import java.util.List;
 
+import static java.util.Objects.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -35,74 +36,76 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc(addFilters = false)
 class CourseControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+        @Autowired
+        private MockMvc mockMvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+        @Autowired
+        private ObjectMapper objectMapper;
 
-    @MockitoBean
-    private CreateCourseUseCase createCourseUseCase;
+        @MockitoBean
+        private CreateCourseUseCase createCourseUseCase;
 
-    @MockitoBean
-    private FindCourseByIdUseCase findCourseByIdUseCase;
+        @MockitoBean
+        private FindCourseByIdUseCase findCourseByIdUseCase;
 
-    @MockitoBean
-    private ListTeacherCoursesUseCase listTeacherCoursesUseCase;
+        @MockitoBean
+        private ListTeacherCoursesUseCase listTeacherCoursesUseCase;
 
-    @MockitoBean
-    private CourseMapper courseMapper;
+        @MockitoBean
+        private CourseMapper courseMapper;
 
-    @MockitoBean
-    private JwtService jwtService;
+        @MockitoBean
+        private JwtService jwtService;
 
-    @MockitoBean
-    private UserDetailsService userDetailsService;
+        @MockitoBean
+        private UserDetailsService userDetailsService;
 
-    @Test
-    void shouldCreateCourse() throws Exception {
-        CreateCourseRequest request = new CreateCourseRequest("MATH101", "TEA-1", "GRP-1", "SUB-1", "PER-1",
-                CourseStatus.OPEN);
-        Course course = new Course();
-        CourseResponse response = new CourseResponse("course-1", "MATH101", "TEA-1", "GRP-1", "SUB-1", "PER-1",
-                CourseStatus.OPEN);
+        @Test
+        void shouldCreateCourse() throws Exception {
+                CreateCourseRequest request = new CreateCourseRequest("MATH101", "TEA-1", "GRP-1", "SUB-1", "PER-1",
+                                CourseStatus.OPEN);
+                Course course = new Course();
+                CourseResponse response = new CourseResponse("course-1", "MATH101", "TEA-1", "GRP-1", "SUB-1", "PER-1",
+                                CourseStatus.OPEN);
 
-        when(courseMapper.toModel(any(CreateCourseRequest.class))).thenReturn(course);
-        when(createCourseUseCase.execute(any(Course.class))).thenReturn(course);
-        when(courseMapper.toResponse(any(Course.class))).thenReturn(response);
+                when(courseMapper.toModel(any(CreateCourseRequest.class))).thenReturn(course);
+                when(createCourseUseCase.execute(any(Course.class))).thenReturn(course);
+                when(courseMapper.toResponse(any(Course.class))).thenReturn(response);
 
-        mockMvc.perform(post("/api/v1/academic/courses")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").value("course-1"))
-                .andExpect(jsonPath("$.courseCode").value("MATH101"));
-    }
+                mockMvc.perform(post("/api/v1/academic/courses")
+                                .contentType(requireNonNull(MediaType.APPLICATION_JSON))
+                                .content(requireNonNull(objectMapper.writeValueAsString(request))))
+                                .andExpect(status().isCreated())
+                                .andExpect(jsonPath("$.id").value("course-1"))
+                                .andExpect(jsonPath("$.courseCode").value("MATH101"));
+        }
 
-    @Test
-    void shouldGetCourseById() throws Exception {
-        Course course = new Course();
-        CourseResponse response = new CourseResponse("course-1", "MATH101", "TEA-1", "GRP-1", "SUB-1", "PER-1",
-                CourseStatus.OPEN);
+        @Test
+        void shouldGetCourseById() throws Exception {
+                Course course = new Course();
+                CourseResponse response = new CourseResponse("course-1", "MATH101", "TEA-1", "GRP-1", "SUB-1", "PER-1",
+                                CourseStatus.OPEN);
 
-        when(findCourseByIdUseCase.execute("course-1")).thenReturn(course);
-        when(courseMapper.toResponse(any(Course.class))).thenReturn(response);
+                when(findCourseByIdUseCase.execute("course-1")).thenReturn(course);
+                when(courseMapper.toResponse(any(Course.class))).thenReturn(response);
 
-        mockMvc.perform(get("/api/v1/academic/courses/course-1"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value("course-1"));
-    }
+                mockMvc.perform(get("/api/v1/academic/courses/course-1"))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.id").value("course-1"));
+        }
 
-    @Test
-    void shouldListTeacherCourses() throws Exception {
-        CourseResponse response = new CourseResponse("course-1", "MATH101", "TEA-1", "GRP-1", "SUB-1", "PER-1",
-                CourseStatus.OPEN);
-        when(listTeacherCoursesUseCase.execute(eq("TEA-1"), any(Pageable.class)))
-                .thenReturn(new PageImpl<>(List.of(new Course())));
-        when(courseMapper.toResponse(any(Course.class))).thenReturn(response);
+        @Test
+        void shouldListTeacherCourses() throws Exception {
+                CourseResponse response = new CourseResponse("course-1", "MATH101", "TEA-1", "GRP-1", "SUB-1", "PER-1",
+                                CourseStatus.OPEN);
+                PaginatedResult<Course> result = new PaginatedResult<>(
+                                List.of(new Course()), 1L, 1, 0, 10);
+                when(listTeacherCoursesUseCase.execute(eq("TEA-1"), any(PaginationCriteria.class)))
+                                .thenReturn(result);
+                when(courseMapper.toResponse(any(Course.class))).thenReturn(response);
 
-        mockMvc.perform(get("/api/v1/academic/courses/teacher/TEA-1"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content[0].courseCode").value("MATH101"));
-    }
+                mockMvc.perform(get("/api/v1/academic/courses/teacher/TEA-1"))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.content[0].courseCode").value("MATH101"));
+        }
 }

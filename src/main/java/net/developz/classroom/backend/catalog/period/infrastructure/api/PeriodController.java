@@ -8,6 +8,7 @@ import net.developz.classroom.backend.catalog.period.application.usecase.*;
 import net.developz.classroom.backend.catalog.period.infrastructure.mapper.PeriodMapper;
 import net.developz.classroom.backend.catalog.period.domain.model.Period;
 import net.developz.classroom.backend.shared.application.dto.PageResponse;
+import net.developz.classroom.backend.shared.domain.pagination.PaginationCriteria;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +30,9 @@ public class PeriodController {
     @GetMapping
     @PreAuthorize("hasAuthority('PERIOD_VIEW')")
     public ResponseEntity<PageResponse<PeriodResponse>> getAllPeriods(Pageable pageable) {
+        PaginationCriteria criteria = PaginationCriteria.of(pageable.getPageNumber(), pageable.getPageSize());
         return ResponseEntity.ok(PageResponse.from(
-                findAllPeriodsUseCase.execute(pageable).map(periodMapper::toDto)));
+                findAllPeriodsUseCase.execute(criteria).map(periodMapper::toDto)));
     }
 
     @GetMapping("/{id}")

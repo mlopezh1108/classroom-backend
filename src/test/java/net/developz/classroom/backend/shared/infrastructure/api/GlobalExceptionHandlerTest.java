@@ -23,7 +23,7 @@ class GlobalExceptionHandlerTest {
         assertThat(result.getDetail()).isEqualTo("Not found");
         assertThat(result.getTitle()).isEqualTo("Entity Not Found");
         assertThat(result.getProperties()).containsKey("timestamp");
-        assertThat(result.getProperties().get("useCase")).isEqualTo("GlobalExceptionHandlerTest");
+        assertThat(result.getProperties()).containsEntry("useCase", "GlobalExceptionHandlerTest");
     }
 
     @Test

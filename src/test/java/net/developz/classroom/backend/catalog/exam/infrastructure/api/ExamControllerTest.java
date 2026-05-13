@@ -21,6 +21,7 @@ import net.developz.classroom.backend.iam.auth.infrastructure.security.jwt.JwtSe
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static java.util.Objects.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -68,15 +69,16 @@ class ExamControllerTest {
         when(mapper.toDto(any(Exam.class))).thenReturn(dto);
 
         mockMvc.perform(post("/api/v1/exams")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
+                .contentType(requireNonNull(MediaType.APPLICATION_JSON))
+                .content(requireNonNull(objectMapper.writeValueAsString(request))))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value("exam-1"));
     }
 
     @Test
     void shouldAddQuestion() throws Exception {
-        CreateQuestionRequest request = new CreateQuestionRequest("exam-1", "Text", 1, 5.0, QuestionType.BOOLEAN, true, null, null);
+        CreateQuestionRequest request = new CreateQuestionRequest("exam-1", "Text", 1, 5.0, QuestionType.BOOLEAN, true,
+                null, null);
         Exam exam = new Exam();
         ExamDTO dto = new ExamDTO("exam-1", "Exam Title", "Desc", "sub-1", null);
 
@@ -84,8 +86,8 @@ class ExamControllerTest {
         when(mapper.toDto(any(Exam.class))).thenReturn(dto);
 
         mockMvc.perform(post("/api/v1/exams/questions")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
+                .contentType(requireNonNull(MediaType.APPLICATION_JSON))
+                .content(requireNonNull(objectMapper.writeValueAsString(request))))
                 .andExpect(status().isCreated());
     }
 

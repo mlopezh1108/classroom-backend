@@ -6,6 +6,7 @@ import net.developz.classroom.backend.academic.advisory.application.usecase.*;
 import net.developz.classroom.backend.academic.advisory.infrastructure.mapper.AdvisoryMapper;
 import net.developz.classroom.backend.academic.advisory.domain.model.Advisory;
 import net.developz.classroom.backend.shared.application.dto.PageResponse;
+import net.developz.classroom.backend.shared.domain.pagination.PaginationCriteria;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,8 +43,9 @@ public class AdvisoryController {
     public ResponseEntity<PageResponse<AdvisoryDTO>> listAdvisories(
             @PathVariable String enrollmentId,
             Pageable pageable) {
+        PaginationCriteria criteria = PaginationCriteria.of(pageable.getPageNumber(), pageable.getPageSize());
         return ResponseEntity.ok(PageResponse.from(
-                listAdvisoriesUseCase.execute(enrollmentId, pageable).map(mapper::toDTO)
+                listAdvisoriesUseCase.execute(enrollmentId, criteria).map(mapper::toDTO)
         ));
     }
 }

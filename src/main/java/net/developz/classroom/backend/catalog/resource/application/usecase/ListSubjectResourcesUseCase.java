@@ -4,9 +4,8 @@ import lombok.RequiredArgsConstructor;
 import net.developz.classroom.backend.catalog.resource.application.port.ResourceRepositoryPort;
 import net.developz.classroom.backend.catalog.resource.domain.model.Resource;
 import net.developz.classroom.backend.shared.application.annotation.UseCase;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import net.developz.classroom.backend.shared.domain.pagination.PaginatedResult;
+import net.developz.classroom.backend.shared.domain.pagination.PaginationCriteria;
 import java.util.List;
 
 @UseCase
@@ -14,8 +13,8 @@ import java.util.List;
 public class ListSubjectResourcesUseCase {
     private final ResourceRepositoryPort resourceRepositoryPort;
 
-    public Page<Resource> execute(String subjectId, Pageable pageable) {
-        return resourceRepositoryPort.findBySubjectId(subjectId, pageable);
+    public PaginatedResult<Resource> execute(String subjectId, PaginationCriteria criteria) {
+        return resourceRepositoryPort.findBySubjectId(subjectId, criteria);
     }
 
     public List<Resource> execute(String subjectId) {

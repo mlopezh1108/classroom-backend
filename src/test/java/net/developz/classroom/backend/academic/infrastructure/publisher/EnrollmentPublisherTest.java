@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.ApplicationEventPublisher;
 
+import static java.util.Objects.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 
@@ -47,7 +48,7 @@ class EnrollmentPublisherTest {
 
         // Assert
         ArgumentCaptor<EnrollmentCreatedEvent> eventCaptor = ArgumentCaptor.forClass(EnrollmentCreatedEvent.class);
-        verify(eventPublisher).publishEvent(eventCaptor.capture());
+        verify(eventPublisher).publishEvent(requireNonNull(eventCaptor.capture()));
 
         EnrollmentCreatedEvent emittedEvent = eventCaptor.getValue();
         assertEquals("enrollment-ulid-456", emittedEvent.enrollmentId());

@@ -22,6 +22,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import net.developz.classroom.backend.iam.auth.infrastructure.security.jwt.JwtService;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static java.util.Objects.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -33,62 +34,64 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc(addFilters = false)
 class AdvisoryControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+        @Autowired
+        private MockMvc mockMvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+        @Autowired
+        private ObjectMapper objectMapper;
 
-    @MockitoBean
-    private ScheduleAdvisoryUseCase scheduleAdvisoryUseCase;
+        @MockitoBean
+        private ScheduleAdvisoryUseCase scheduleAdvisoryUseCase;
 
-    @MockitoBean
-    private RecordAdvisorySessionUseCase recordAdvisorySessionUseCase;
+        @MockitoBean
+        private RecordAdvisorySessionUseCase recordAdvisorySessionUseCase;
 
-    @MockitoBean
-    private ListAdvisoriesUseCase listAdvisoriesUseCase;
+        @MockitoBean
+        private ListAdvisoriesUseCase listAdvisoriesUseCase;
 
-    @MockitoBean
-    private AdvisoryMapper mapper;
+        @MockitoBean
+        private AdvisoryMapper mapper;
 
-    @MockitoBean
-    private JwtService jwtService;
+        @MockitoBean
+        private JwtService jwtService;
 
-    @MockitoBean
-    private UserDetailsService userDetailsService;
+        @MockitoBean
+        private UserDetailsService userDetailsService;
 
-    @Test
-    void shouldScheduleAdvisory() throws Exception {
-        ScheduleAdvisoryRequest request = new ScheduleAdvisoryRequest("enroll-1", LocalDate.now(), LocalTime.now());
-        Advisory advisory = new Advisory();
-        AdvisoryDTO dto = new AdvisoryDTO("adv-1", "enroll-1", AdvisoryStatus.SCHEDULED, LocalDate.now(),
-                LocalTime.now(), null);
+        @Test
+        void shouldScheduleAdvisory() throws Exception {
+                ScheduleAdvisoryRequest request = new ScheduleAdvisoryRequest("enroll-1", LocalDate.now(),
+                                LocalTime.now());
+                Advisory advisory = new Advisory();
+                AdvisoryDTO dto = new AdvisoryDTO("adv-1", "enroll-1", AdvisoryStatus.SCHEDULED, LocalDate.now(),
+                                LocalTime.now(), null);
 
-        when(mapper.toModel(any(ScheduleAdvisoryRequest.class))).thenReturn(advisory);
-        when(scheduleAdvisoryUseCase.execute(any(Advisory.class))).thenReturn(advisory);
-        when(mapper.toDTO(any(Advisory.class))).thenReturn(dto);
+                when(mapper.toModel(any(ScheduleAdvisoryRequest.class))).thenReturn(advisory);
+                when(scheduleAdvisoryUseCase.execute(any(Advisory.class))).thenReturn(advisory);
+                when(mapper.toDTO(any(Advisory.class))).thenReturn(dto);
 
-        mockMvc.perform(post("/api/v1/advisories/schedule")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").value("adv-1"));
-    }
+                mockMvc.perform(post("/api/v1/advisories/schedule")
+                                .contentType(requireNonNull(MediaType.APPLICATION_JSON))
+                                .content(requireNonNull(objectMapper.writeValueAsString(request))))
+                                .andExpect(status().isCreated())
+                                .andExpect(jsonPath("$.id").value("adv-1"));
+        }
 
-    @Test
-    void shouldRecordSession() throws Exception {
-        RecordSessionRequest request = new RecordSessionRequest("Notes", AdvisoryStatus.COMPLETED);
-        Advisory advisory = new Advisory();
-        AdvisoryDTO dto = new AdvisoryDTO("adv-1", "enroll-1", AdvisoryStatus.COMPLETED, LocalDate.now(),
-                LocalTime.now(), "Notes");
+        @Test
+        void shouldRecordSession() throws Exception {
+                RecordSessionRequest request = new RecordSessionRequest("Notes", AdvisoryStatus.COMPLETED);
+                Advisory advisory = new Advisory();
+                AdvisoryDTO dto = new AdvisoryDTO("adv-1", "enroll-1", AdvisoryStatus.COMPLETED, LocalDate.now(),
+                                LocalTime.now(), "Notes");
 
-        when(recordAdvisorySessionUseCase.execute(eq("adv-1"), any(RecordSessionRequest.class))).thenReturn(advisory);
-        when(mapper.toDTO(any(Advisory.class))).thenReturn(dto);
+                when(recordAdvisorySessionUseCase.execute(eq("adv-1"), any(RecordSessionRequest.class)))
+                                .thenReturn(advisory);
+                when(mapper.toDTO(any(Advisory.class))).thenReturn(dto);
 
-        mockMvc.perform(post("/api/v1/advisories/adv-1/record")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.notes").value("Notes"));
-    }
+                mockMvc.perform(post("/api/v1/advisories/adv-1/record")
+                                .contentType(requireNonNull(MediaType.APPLICATION_JSON))
+                                .content(requireNonNull(objectMapper.writeValueAsString(request))))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.notes").value("Notes"));
+        }
 }

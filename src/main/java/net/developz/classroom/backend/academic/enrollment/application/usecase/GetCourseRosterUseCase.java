@@ -4,9 +4,8 @@ import lombok.RequiredArgsConstructor;
 import net.developz.classroom.backend.academic.enrollment.application.port.EnrollmentRepositoryPort;
 import net.developz.classroom.backend.academic.enrollment.domain.model.Enrollment;
 import net.developz.classroom.backend.shared.application.annotation.UseCase;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import net.developz.classroom.backend.shared.domain.pagination.PaginatedResult;
+import net.developz.classroom.backend.shared.domain.pagination.PaginationCriteria;
 import java.util.List;
 
 @UseCase
@@ -14,8 +13,8 @@ import java.util.List;
 public class GetCourseRosterUseCase {
     private final EnrollmentRepositoryPort enrollmentRepositoryPort;
 
-    public Page<Enrollment> execute(String courseId, Pageable pageable) {
-        return enrollmentRepositoryPort.findByCourseId(courseId, pageable);
+    public PaginatedResult<Enrollment> execute(String courseId, PaginationCriteria criteria) {
+        return enrollmentRepositoryPort.findByCourseId(courseId, criteria);
     }
 
     public List<Enrollment> execute(String courseId) {

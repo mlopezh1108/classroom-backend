@@ -1,9 +1,14 @@
 package net.developz.classroom.backend.shared.infrastructure.persistence.adapter;
 
 import net.developz.classroom.backend.shared.application.port.RepositoryPort;
+import net.developz.classroom.backend.shared.domain.pagination.PaginatedResult;
+import net.developz.classroom.backend.shared.domain.pagination.PaginationCriteria;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import static java.util.Objects.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -53,31 +58,37 @@ public abstract class JpaRepositoryAdapter<M, E, ID, R extends JpaRepository<E, 
     }
 
     @Override
-    public Page<M> findAll(Pageable pageable) {
-        return repository.findAll(pageable).map(this::toModel);
+    public PaginatedResult<M> findAll(PaginationCriteria criteria) {
+        Pageable pageable = PageRequest.of(criteria.page(), criteria.size());
+        Page<E> page = repository.findAll(pageable);
+
+        return new PaginatedResult<>(
+                page.getContent().stream().map(this::toModel).toList(),
+                page.getTotalElements(),
+                page.getTotalPages(),
+                page.getNumber(),
+                page.getSize());
     }
 
     @Override
     public Optional<M> findById(ID id) {
-        return repository.findById(id).map(this::toModel);
+        return repository.findById(requireNonNull(id)).map(this::toModel);
     }
 
     @Override
     public boolean existsById(ID id) {
-        return repository.existsById(id);
+        return repository.existsById(requireNonNull(id));
     }
 
     @Override
     public M save(M model) {
         E entity = toEntity(model);
-        E savedEntity = repository.save(entity);
+        E savedEntity = repository.save(requireNonNull(entity));
         return toModel(savedEntity);
     }
 
     @Override
     public void deleteById(ID id) {
-        repository.deleteById(id);
+        repository.deleteById(requireNonNull(id));
     }
 }
-
-

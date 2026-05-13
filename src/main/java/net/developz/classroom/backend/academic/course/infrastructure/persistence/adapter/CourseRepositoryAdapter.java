@@ -4,9 +4,13 @@ import net.developz.classroom.backend.academic.course.application.port.CourseRep
 import net.developz.classroom.backend.academic.course.domain.model.Course;
 import net.developz.classroom.backend.academic.course.infrastructure.mapper.CourseMapper;
 import net.developz.classroom.backend.academic.course.infrastructure.persistence.entity.CourseEntity;
+import net.developz.classroom.backend.academic.course.infrastructure.persistence.entity.CourseDetailsProjection;
 import net.developz.classroom.backend.academic.course.infrastructure.persistence.repository.CourseRepository;
+import net.developz.classroom.backend.shared.domain.pagination.PaginatedResult;
+import net.developz.classroom.backend.shared.domain.pagination.PaginationCriteria;
 import net.developz.classroom.backend.shared.infrastructure.persistence.adapter.JpaRepositoryAdapter;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
@@ -48,9 +52,10 @@ public class CourseRepositoryAdapter
     }
 
     @Override
-    public Page<Course> findAll(Pageable pageable) {
-        return repository.findAllDetailed(pageable)
-                .map(courseMapper::toModel);
+    public PaginatedResult<Course> findAll(PaginationCriteria criteria) {
+        Pageable pageable = PageRequest.of(criteria.page(), criteria.size());
+        Page<CourseDetailsProjection> page = repository.findAllDetailed(pageable);
+        return toPaginatedResultFromProjection(page);
     }
 
     @Override
@@ -61,9 +66,10 @@ public class CourseRepositoryAdapter
     }
 
     @Override
-    public Page<Course> findByTeacherId(String teacherId, Pageable pageable) {
-        return repository.findDetailedByTeacherId(teacherId, pageable)
-                .map(courseMapper::toModel);
+    public PaginatedResult<Course> findByTeacherId(String teacherId, PaginationCriteria criteria) {
+        Pageable pageable = PageRequest.of(criteria.page(), criteria.size());
+        Page<CourseDetailsProjection> page = repository.findDetailedByTeacherId(teacherId, pageable);
+        return toPaginatedResultFromProjection(page);
     }
 
     @Override
@@ -74,8 +80,19 @@ public class CourseRepositoryAdapter
     }
 
     @Override
-    public Page<Course> findByPeriodId(String periodId, Pageable pageable) {
-        return repository.findDetailedByPeriodId(periodId, pageable)
-                .map(courseMapper::toModel);
+    public PaginatedResult<Course> findByPeriodId(String periodId, PaginationCriteria criteria) {
+        Pageable pageable = PageRequest.of(criteria.page(), criteria.size());
+        Page<CourseDetailsProjection> page = repository.findDetailedByPeriodId(periodId, pageable);
+        return toPaginatedResultFromProjection(page);
+    }
+
+    private PaginatedResult<Course> toPaginatedResultFromProjection(Page<CourseDetailsProjection> page) {
+        return new PaginatedResult<>(
+                page.getContent().stream().map(courseMapper::toModel).toList(),
+                page.getTotalElements(),
+                page.getTotalPages(),
+                page.getNumber(),
+                page.getSize()
+        );
     }
 }

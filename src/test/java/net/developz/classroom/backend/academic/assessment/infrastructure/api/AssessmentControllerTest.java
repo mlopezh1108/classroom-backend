@@ -19,6 +19,7 @@ import net.developz.classroom.backend.iam.auth.infrastructure.security.jwt.JwtSe
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static java.util.Objects.requireNonNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -71,8 +72,8 @@ class AssessmentControllerTest {
         when(mapper.toDto(any(ExamAttempt.class))).thenReturn(dto);
 
         mockMvc.perform(post("/api/v1/assessments/attempts")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
+                .contentType(requireNonNull(MediaType.APPLICATION_JSON))
+                .content(requireNonNull(objectMapper.writeValueAsString(request))))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value("att-1"));
     }
@@ -81,14 +82,15 @@ class AssessmentControllerTest {
     void shouldSubmitAnswer() throws Exception {
         SubmitAnswerRequest request = new SubmitAnswerRequest("q-1", AnswerType.BOOLEAN, "true");
         ExamAttempt attempt = new ExamAttempt();
-        ExamAttemptDTO dto = new ExamAttemptDTO("att-1", "enroll-1", "exam-1", null, null, null, AttemptStatus.IN_PROGRESS);
+        ExamAttemptDTO dto = new ExamAttemptDTO("att-1", "enroll-1", "exam-1", null, null, null,
+                AttemptStatus.IN_PROGRESS);
 
         when(submitExamAnswerUseCase.execute(eq("att-1"), any(SubmitAnswerRequest.class))).thenReturn(attempt);
         when(mapper.toDto(any(ExamAttempt.class))).thenReturn(dto);
 
         mockMvc.perform(post("/api/v1/assessments/attempts/att-1/answers")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
+                .contentType(requireNonNull(MediaType.APPLICATION_JSON))
+                .content(requireNonNull(objectMapper.writeValueAsString(request))))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value("att-1"));
     }

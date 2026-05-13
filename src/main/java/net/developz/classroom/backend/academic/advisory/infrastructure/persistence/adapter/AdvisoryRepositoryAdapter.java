@@ -5,8 +5,11 @@ import net.developz.classroom.backend.academic.advisory.domain.model.Advisory;
 import net.developz.classroom.backend.academic.advisory.infrastructure.mapper.AdvisoryMapper;
 import net.developz.classroom.backend.academic.advisory.infrastructure.persistence.entity.AdvisoryEntity;
 import net.developz.classroom.backend.academic.advisory.infrastructure.persistence.repository.AdvisoryRepository;
+import net.developz.classroom.backend.shared.domain.pagination.PaginatedResult;
+import net.developz.classroom.backend.shared.domain.pagination.PaginationCriteria;
 import net.developz.classroom.backend.shared.infrastructure.persistence.adapter.JpaRepositoryAdapter;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
@@ -43,8 +46,16 @@ public class AdvisoryRepositoryAdapter
     }
 
     @Override
-    public Page<Advisory> findByEnrollmentId(String enrollmentId, Pageable pageable) {
-        return repository.findByEnrollmentId(enrollmentId, pageable)
-                .map(advisoryMapper::toModel);
+    public PaginatedResult<Advisory> findByEnrollmentId(String enrollmentId, PaginationCriteria criteria) {
+        Pageable pageable = PageRequest.of(criteria.page(), criteria.size());
+        Page<AdvisoryEntity> page = repository.findByEnrollmentId(enrollmentId, pageable);
+        
+        return new PaginatedResult<>(
+                page.getContent().stream().map(advisoryMapper::toModel).toList(),
+                page.getTotalElements(),
+                page.getTotalPages(),
+                page.getNumber(),
+                page.getSize()
+        );
     }
 }

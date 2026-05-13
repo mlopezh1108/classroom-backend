@@ -7,6 +7,7 @@ import net.developz.classroom.backend.academic.enrollment.application.usecase.*;
 import net.developz.classroom.backend.academic.enrollment.infrastructure.mapper.EnrollmentMapper;
 import net.developz.classroom.backend.academic.enrollment.domain.model.Enrollment;
 import net.developz.classroom.backend.shared.application.dto.PageResponse;
+import net.developz.classroom.backend.shared.domain.pagination.PaginationCriteria;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,8 +43,9 @@ public class EnrollmentController {
     public ResponseEntity<PageResponse<EnrollmentDTO>> getCourseRoster(
             @PathVariable String courseId,
             Pageable pageable) {
+        PaginationCriteria criteria = PaginationCriteria.of(pageable.getPageNumber(), pageable.getPageSize());
         return ResponseEntity.ok(PageResponse.from(
-                getCourseRosterUseCase.execute(courseId, pageable).map(mapper::toDto)
+                getCourseRosterUseCase.execute(courseId, criteria).map(mapper::toDto)
         ));
     }
 

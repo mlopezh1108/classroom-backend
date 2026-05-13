@@ -8,6 +8,7 @@ import net.developz.classroom.backend.catalog.resource.application.usecase.*;
 import net.developz.classroom.backend.catalog.resource.infrastructure.mapper.ResourceMapper;
 import net.developz.classroom.backend.catalog.resource.domain.model.Resource;
 import net.developz.classroom.backend.shared.application.dto.PageResponse;
+import net.developz.classroom.backend.shared.domain.pagination.PaginationCriteria;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,8 +51,9 @@ public class ResourceController {
     public ResponseEntity<PageResponse<ResourceDTO>> listSubjectResources(
             @PathVariable String subjectId,
             Pageable pageable) {
+        PaginationCriteria criteria = PaginationCriteria.of(pageable.getPageNumber(), pageable.getPageSize());
         return ResponseEntity.ok(PageResponse.from(
-                listSubjectResourcesUseCase.execute(subjectId, pageable).map(mapper::toDto)
+                listSubjectResourcesUseCase.execute(subjectId, criteria).map(mapper::toDto)
         ));
     }
 }

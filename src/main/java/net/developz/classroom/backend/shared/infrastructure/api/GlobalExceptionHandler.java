@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.net.URI;
 import java.time.Instant;
+import java.util.Objects;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -17,7 +18,7 @@ public class GlobalExceptionHandler {
     public ProblemDetail handleEntityNotFoundException(EntityNotFoundException ex) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
         problemDetail.setTitle("Entity Not Found");
-        problemDetail.setType(URI.create("https://api.developz.net/errors/not-found"));
+        problemDetail.setType(Objects.requireNonNull(URI.create("https://api.developz.net/errors/not-found")));
         problemDetail.setProperty("timestamp", Instant.now());
         problemDetail.setProperty("useCase", ex.getUseCaseClass().getSimpleName());
         problemDetail.setProperty("entity", ex.getEntityClass().getSimpleName());
@@ -28,7 +29,7 @@ public class GlobalExceptionHandler {
     public ProblemDetail handleEntityAlreadyExistsException(EntityAlreadyExistsException ex) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, ex.getMessage());
         problemDetail.setTitle("Entity Already Exists");
-        problemDetail.setType(URI.create("https://api.developz.net/errors/already-exists"));
+        problemDetail.setType(Objects.requireNonNull(URI.create("https://api.developz.net/errors/already-exists")));
         problemDetail.setProperty("timestamp", Instant.now());
         problemDetail.setProperty("useCase", ex.getUseCaseClass().getSimpleName());
         problemDetail.setProperty("entity", ex.getEntityClass().getSimpleName());

@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import net.developz.classroom.backend.academic.course.application.port.CourseRepositoryPort;
 import net.developz.classroom.backend.academic.course.domain.model.Course;
 import net.developz.classroom.backend.shared.application.annotation.UseCase;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import net.developz.classroom.backend.shared.domain.pagination.PaginatedResult;
+import net.developz.classroom.backend.shared.domain.pagination.PaginationCriteria;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public class ListTeacherCoursesUseCase {
         return courseRepositoryPort.findByTeacherId(teacherId);
     }
 
-    public Page<Course> execute(String teacherId, Pageable pageable) {
-        return courseRepositoryPort.findByTeacherId(teacherId, pageable);
+    public PaginatedResult<Course> execute(String teacherId, PaginationCriteria criteria) {
+        return courseRepositoryPort.findByTeacherId(teacherId, criteria);
     }
 }

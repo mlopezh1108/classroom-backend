@@ -9,6 +9,7 @@ import net.developz.classroom.backend.academic.course.application.usecase.*;
 import net.developz.classroom.backend.academic.course.infrastructure.mapper.CourseMapper;
 import net.developz.classroom.backend.academic.course.domain.model.Course;
 import net.developz.classroom.backend.shared.application.dto.PageResponse;
+import net.developz.classroom.backend.shared.domain.pagination.PaginationCriteria;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,8 +46,9 @@ public class CourseController {
     public ResponseEntity<PageResponse<CourseResponse>> listTeacherCourses(
             @PathVariable String teacherId,
             Pageable pageable) {
+        PaginationCriteria criteria = PaginationCriteria.of(pageable.getPageNumber(), pageable.getPageSize());
         return ResponseEntity.ok(PageResponse.from(
-                listTeacherCoursesUseCase.execute(teacherId, pageable).map(courseMapper::toResponse)
+                listTeacherCoursesUseCase.execute(teacherId, criteria).map(courseMapper::toResponse)
         ));
     }
 }

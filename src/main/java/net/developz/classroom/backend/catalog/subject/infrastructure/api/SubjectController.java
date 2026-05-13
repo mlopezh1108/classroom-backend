@@ -11,8 +11,8 @@ import net.developz.classroom.backend.catalog.subject.application.usecase.FindSu
 import net.developz.classroom.backend.catalog.subject.application.usecase.UpdateSubjectUseCase;
 import net.developz.classroom.backend.catalog.subject.infrastructure.mapper.SubjectMapper;
 import net.developz.classroom.backend.catalog.subject.domain.model.Subject;
-
 import net.developz.classroom.backend.shared.application.dto.PageResponse;
+import net.developz.classroom.backend.shared.domain.pagination.PaginationCriteria;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,8 +34,9 @@ public class SubjectController {
     @GetMapping
     @PreAuthorize("hasAuthority('SUBJECT_VIEW')")
     public ResponseEntity<PageResponse<SubjectDTO>> getAllSubjects(Pageable pageable) {
+        PaginationCriteria criteria = PaginationCriteria.of(pageable.getPageNumber(), pageable.getPageSize());
         return ResponseEntity.ok(PageResponse.from(
-                findAllSubjectsUseCase.execute(pageable).map(subjectMapper::toDto)));
+                findAllSubjectsUseCase.execute(criteria).map(subjectMapper::toDto)));
     }
 
     @GetMapping("/{id}")

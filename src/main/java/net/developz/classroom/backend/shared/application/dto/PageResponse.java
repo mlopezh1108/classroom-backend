@@ -1,5 +1,6 @@
 package net.developz.classroom.backend.shared.application.dto;
 
+import net.developz.classroom.backend.shared.domain.pagination.PaginatedResult;
 import java.util.List;
 
 /**
@@ -17,20 +18,20 @@ public record PageResponse<T>(
     boolean last
 ) {
     /**
-     * Map a Spring Data Page to our custom PageResponse.
+     * Map a PaginatedResult to our custom PageResponse.
      * 
-     * @param page Spring Data Page
+     * @param result PaginatedResult
      * @param <T> Content type
      * @return Standardized PageResponse
      */
-    public static <T> PageResponse<T> from(org.springframework.data.domain.Page<T> page) {
+    public static <T> PageResponse<T> from(PaginatedResult<T> result) {
         return new PageResponse<>(
-            page.getContent(),
-            page.getNumber(),
-            page.getSize(),
-            page.getTotalElements(),
-            page.getTotalPages(),
-            page.isLast()
+            result.items(),
+            result.currentPage(),
+            result.size(),
+            result.totalElements(),
+            result.totalPages(),
+            result.currentPage() == result.totalPages() - 1 || result.totalPages() == 0
         );
     }
 }

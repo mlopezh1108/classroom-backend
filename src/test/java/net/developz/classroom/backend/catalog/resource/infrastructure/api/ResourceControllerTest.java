@@ -21,10 +21,11 @@ import net.developz.classroom.backend.iam.auth.infrastructure.security.jwt.JwtSe
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+import net.developz.classroom.backend.shared.domain.pagination.PaginatedResult;
+import net.developz.classroom.backend.shared.domain.pagination.PaginationCriteria;
 import java.util.List;
 
+import static java.util.Objects.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -35,71 +36,73 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc(addFilters = false)
 class ResourceControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+        @Autowired
+        private MockMvc mockMvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+        @Autowired
+        private ObjectMapper objectMapper;
 
-    @MockitoBean
-    private CreateResourceUseCase createResourceUseCase;
+        @MockitoBean
+        private CreateResourceUseCase createResourceUseCase;
 
-    @MockitoBean
-    private UpdateResourceUseCase updateResourceUseCase;
+        @MockitoBean
+        private UpdateResourceUseCase updateResourceUseCase;
 
-    @MockitoBean
-    private DeleteResourceUseCase deleteResourceUseCase;
+        @MockitoBean
+        private DeleteResourceUseCase deleteResourceUseCase;
 
-    @MockitoBean
-    private ListSubjectResourcesUseCase listSubjectResourcesUseCase;
+        @MockitoBean
+        private ListSubjectResourcesUseCase listSubjectResourcesUseCase;
 
-    @MockitoBean
-    private ResourceMapper mapper;
+        @MockitoBean
+        private ResourceMapper mapper;
 
-    @MockitoBean
-    private JwtService jwtService;
+        @MockitoBean
+        private JwtService jwtService;
 
-    @MockitoBean
-    private UserDetailsService userDetailsService;
+        @MockitoBean
+        private UserDetailsService userDetailsService;
 
-    @Test
-    void shouldCreateResource() throws Exception {
-        CreateResourceRequest request = new CreateResourceRequest("Title", ResourceType.PDF, "url", "sub-1");
-        Resource resource = new Resource();
-        ResourceDTO dto = new ResourceDTO("res-1", "Title", ResourceType.PDF, "url", "sub-1");
+        @Test
+        void shouldCreateResource() throws Exception {
+                CreateResourceRequest request = new CreateResourceRequest("Title", ResourceType.PDF, "url", "sub-1");
+                Resource resource = new Resource();
+                ResourceDTO dto = new ResourceDTO("res-1", "Title", ResourceType.PDF, "url", "sub-1");
 
-        when(createResourceUseCase.execute(any(CreateResourceRequest.class))).thenReturn(resource);
-        when(mapper.toDto(any(Resource.class))).thenReturn(dto);
+                when(createResourceUseCase.execute(any(CreateResourceRequest.class))).thenReturn(resource);
+                when(mapper.toDto(any(Resource.class))).thenReturn(dto);
 
-        mockMvc.perform(post("/api/v1/resources")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").value("res-1"));
-    }
+                mockMvc.perform(post("/api/v1/resources")
+                                .contentType(requireNonNull(MediaType.APPLICATION_JSON))
+                                .content(requireNonNull(objectMapper.writeValueAsString(request))))
+                                .andExpect(status().isCreated())
+                                .andExpect(jsonPath("$.id").value("res-1"));
+        }
 
-    @Test
-    void shouldUpdateResource() throws Exception {
-        UpdateResourceRequest request = new UpdateResourceRequest("New Title", "new-url");
-        Resource resource = new Resource();
-        ResourceDTO dto = new ResourceDTO("res-1", "New Title", ResourceType.PDF, "new-url", "sub-1");
+        @Test
+        void shouldUpdateResource() throws Exception {
+                UpdateResourceRequest request = new UpdateResourceRequest("New Title", "new-url");
+                Resource resource = new Resource();
+                ResourceDTO dto = new ResourceDTO("res-1", "New Title", ResourceType.PDF, "new-url", "sub-1");
 
-        when(updateResourceUseCase.execute(eq("res-1"), any(UpdateResourceRequest.class))).thenReturn(resource);
-        when(mapper.toDto(any(Resource.class))).thenReturn(dto);
+                when(updateResourceUseCase.execute(eq("res-1"), any(UpdateResourceRequest.class))).thenReturn(resource);
+                when(mapper.toDto(any(Resource.class))).thenReturn(dto);
 
-        mockMvc.perform(put("/api/v1/resources/res-1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title").value("New Title"));
-    }
+                mockMvc.perform(put("/api/v1/resources/res-1")
+                                .contentType(requireNonNull(MediaType.APPLICATION_JSON))
+                                .content(requireNonNull(objectMapper.writeValueAsString(request))))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.title").value("New Title"));
+        }
 
-    @Test
-    void shouldListSubjectResources() throws Exception {
-        when(listSubjectResourcesUseCase.execute(eq("sub-1"), any(Pageable.class)))
-                .thenReturn(new PageImpl<>(List.of(new Resource())));
+        @Test
+        void shouldListSubjectResources() throws Exception {
+                PaginatedResult<Resource> result = new PaginatedResult<>(
+                                List.of(new Resource()), 1L, 1, 0, 10);
+                when(listSubjectResourcesUseCase.execute(eq("sub-1"), any(PaginationCriteria.class)))
+                                .thenReturn(result);
 
-        mockMvc.perform(get("/api/v1/resources/subject/sub-1"))
-                .andExpect(status().isOk());
-    }
+                mockMvc.perform(get("/api/v1/resources/subject/sub-1"))
+                                .andExpect(status().isOk());
+        }
 }

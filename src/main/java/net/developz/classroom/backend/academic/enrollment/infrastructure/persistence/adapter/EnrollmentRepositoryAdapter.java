@@ -3,10 +3,14 @@ package net.developz.classroom.backend.academic.enrollment.infrastructure.persis
 import net.developz.classroom.backend.academic.enrollment.application.port.EnrollmentRepositoryPort;
 import net.developz.classroom.backend.academic.enrollment.domain.model.Enrollment;
 import net.developz.classroom.backend.academic.enrollment.infrastructure.mapper.EnrollmentMapper;
+import net.developz.classroom.backend.academic.enrollment.infrastructure.persistence.entity.EnrollmentDetailsProjection;
 import net.developz.classroom.backend.academic.enrollment.infrastructure.persistence.entity.EnrollmentEntity;
 import net.developz.classroom.backend.academic.enrollment.infrastructure.persistence.repository.EnrollmentRepository;
+import net.developz.classroom.backend.shared.domain.pagination.PaginatedResult;
+import net.developz.classroom.backend.shared.domain.pagination.PaginationCriteria;
 import net.developz.classroom.backend.shared.infrastructure.persistence.adapter.JpaRepositoryAdapter;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
@@ -48,15 +52,17 @@ public class EnrollmentRepositoryAdapter
     }
 
     @Override
-    public Page<Enrollment> findAll(Pageable pageable) {
-        return repository.findAllDetailed(pageable)
-                .map(enrollmentMapper::toModel);
+    public PaginatedResult<Enrollment> findAll(PaginationCriteria criteria) {
+        Pageable pageable = PageRequest.of(criteria.page(), criteria.size());
+        Page<EnrollmentDetailsProjection> page = repository.findAllDetailed(pageable);
+        return toPaginatedResultFromProjection(page);
     }
 
     @Override
-    public Page<Enrollment> findByCourseId(String courseId, Pageable pageable) {
-        return repository.findDetailedByCourseId(courseId, pageable)
-                .map(enrollmentMapper::toModel);
+    public PaginatedResult<Enrollment> findByCourseId(String courseId, PaginationCriteria criteria) {
+        Pageable pageable = PageRequest.of(criteria.page(), criteria.size());
+        Page<EnrollmentDetailsProjection> page = repository.findDetailedByCourseId(courseId, pageable);
+        return toPaginatedResultFromProjection(page);
     }
 
     @Override
@@ -64,5 +70,15 @@ public class EnrollmentRepositoryAdapter
         return repository.findDetailedByCourseId(courseId).stream()
                 .map(enrollmentMapper::toModel)
                 .collect(Collectors.toList());
+    }
+
+    private PaginatedResult<Enrollment> toPaginatedResultFromProjection(Page<EnrollmentDetailsProjection> page) {
+        return new PaginatedResult<>(
+                page.getContent().stream().map(enrollmentMapper::toModel).toList(),
+                page.getTotalElements(),
+                page.getTotalPages(),
+                page.getNumber(),
+                page.getSize()
+        );
     }
 }

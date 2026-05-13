@@ -1,7 +1,7 @@
 package net.developz.classroom.backend.shared.application.port;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import net.developz.classroom.backend.shared.domain.pagination.PaginatedResult;
+import net.developz.classroom.backend.shared.domain.pagination.PaginationCriteria;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +18,7 @@ public interface RepositoryPort<M, ID> {
 
     List<M> findAll();
 
-    Page<M> findAll(Pageable pageable);
+    PaginatedResult<M> findAll(PaginationCriteria criteria);
 
     Optional<M> findById(ID id);
 
@@ -28,5 +28,3 @@ public interface RepositoryPort<M, ID> {
 
     void deleteById(ID id);
 }
-
-

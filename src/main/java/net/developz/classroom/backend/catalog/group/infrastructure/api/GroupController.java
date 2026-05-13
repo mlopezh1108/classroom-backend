@@ -8,6 +8,7 @@ import net.developz.classroom.backend.catalog.group.application.usecase.*;
 import net.developz.classroom.backend.catalog.group.infrastructure.mapper.GroupMapper;
 import net.developz.classroom.backend.catalog.group.domain.model.Group;
 import net.developz.classroom.backend.shared.application.dto.PageResponse;
+import net.developz.classroom.backend.shared.domain.pagination.PaginationCriteria;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +30,9 @@ public class GroupController {
     @GetMapping
     @PreAuthorize("hasAuthority('GROUP_VIEW')")
     public ResponseEntity<PageResponse<GroupResponse>> getAllGroups(Pageable pageable) {
+        PaginationCriteria criteria = PaginationCriteria.of(pageable.getPageNumber(), pageable.getPageSize());
         return ResponseEntity.ok(PageResponse.from(
-                findAllGroupsUseCase.execute(pageable).map(groupMapper::toDto)));
+                findAllGroupsUseCase.execute(criteria).map(groupMapper::toDto)));
     }
 
     @GetMapping("/{id}")

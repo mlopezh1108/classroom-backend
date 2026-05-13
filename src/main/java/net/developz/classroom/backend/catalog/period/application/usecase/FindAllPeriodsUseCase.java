@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import net.developz.classroom.backend.catalog.period.application.port.PeriodRepositoryPort;
 import net.developz.classroom.backend.catalog.period.domain.model.Period;
 import net.developz.classroom.backend.shared.application.annotation.UseCase;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import net.developz.classroom.backend.shared.domain.pagination.PaginatedResult;
+import net.developz.classroom.backend.shared.domain.pagination.PaginationCriteria;
 import java.util.List;
 
 @UseCase
@@ -13,8 +13,8 @@ import java.util.List;
 public class FindAllPeriodsUseCase {
     private final PeriodRepositoryPort periodRepositoryPort;
     
-    public Page<Period> execute(Pageable pageable) {
-        return periodRepositoryPort.findAllSorted(pageable);
+    public PaginatedResult<Period> execute(PaginationCriteria criteria) {
+        return periodRepositoryPort.findAllSorted(criteria);
     }
 
     public List<Period> execute() { 

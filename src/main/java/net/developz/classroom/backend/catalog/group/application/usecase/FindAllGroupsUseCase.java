@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import net.developz.classroom.backend.catalog.group.application.port.GroupRepositoryPort;
 import net.developz.classroom.backend.catalog.group.domain.model.Group;
 import net.developz.classroom.backend.shared.application.annotation.UseCase;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import net.developz.classroom.backend.shared.domain.pagination.PaginatedResult;
+import net.developz.classroom.backend.shared.domain.pagination.PaginationCriteria;
 import java.util.List;
 
 @UseCase
@@ -13,8 +13,8 @@ import java.util.List;
 public class FindAllGroupsUseCase {
     private final GroupRepositoryPort groupRepositoryPort;
     
-    public Page<Group> execute(Pageable pageable) { 
-        return groupRepositoryPort.findAll(pageable); 
+    public PaginatedResult<Group> execute(PaginationCriteria criteria) { 
+        return groupRepositoryPort.findAll(criteria); 
     }
 
     public List<Group> execute() { 

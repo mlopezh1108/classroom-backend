@@ -5,8 +5,11 @@ import net.developz.classroom.backend.catalog.resource.domain.model.Resource;
 import net.developz.classroom.backend.catalog.resource.infrastructure.mapper.ResourceMapper;
 import net.developz.classroom.backend.catalog.resource.infrastructure.persistence.entity.ResourceEntity;
 import net.developz.classroom.backend.catalog.resource.infrastructure.persistence.repository.ResourceRepository;
+import net.developz.classroom.backend.shared.domain.pagination.PaginatedResult;
+import net.developz.classroom.backend.shared.domain.pagination.PaginationCriteria;
 import net.developz.classroom.backend.shared.infrastructure.persistence.adapter.JpaRepositoryAdapter;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
@@ -40,8 +43,16 @@ public class ResourceRepositoryAdapter extends JpaRepositoryAdapter<Resource, Re
     }
 
     @Override
-    public Page<Resource> findBySubjectId(String subjectId, Pageable pageable) {
-        return repository.findBySubjectId(subjectId, pageable)
-                .map(this::toModel);
+    public PaginatedResult<Resource> findBySubjectId(String subjectId, PaginationCriteria criteria) {
+        Pageable pageable = PageRequest.of(criteria.page(), criteria.size());
+        Page<ResourceEntity> page = repository.findBySubjectId(subjectId, pageable);
+        
+        return new PaginatedResult<>(
+                page.getContent().stream().map(this::toModel).toList(),
+                page.getTotalElements(),
+                page.getTotalPages(),
+                page.getNumber(),
+                page.getSize()
+        );
     }
 }

@@ -4,9 +4,8 @@ import lombok.RequiredArgsConstructor;
 import net.developz.classroom.backend.academic.advisory.application.port.AdvisoryRepositoryPort;
 import net.developz.classroom.backend.academic.advisory.domain.model.Advisory;
 import net.developz.classroom.backend.shared.application.annotation.UseCase;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import net.developz.classroom.backend.shared.domain.pagination.PaginatedResult;
+import net.developz.classroom.backend.shared.domain.pagination.PaginationCriteria;
 import java.util.List;
 
 @UseCase
@@ -14,8 +13,8 @@ import java.util.List;
 public class ListAdvisoriesUseCase {
     private final AdvisoryRepositoryPort advisoryRepositoryPort;
 
-    public Page<Advisory> execute(String enrollmentId, Pageable pageable) {
-        return advisoryRepositoryPort.findByEnrollmentId(enrollmentId, pageable);
+    public PaginatedResult<Advisory> execute(String enrollmentId, PaginationCriteria criteria) {
+        return advisoryRepositoryPort.findByEnrollmentId(enrollmentId, criteria);
     }
 
     public List<Advisory> execute(String enrollmentId) {
